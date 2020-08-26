@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Course Guide - WordPress Developer</title>
+        <script src="jquery-v3.5.1.js"></script>
+        <link rel="stylesheet" href="jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.min.css">
+        <style>
+            body {
+                background-color: #333;
+            }
+            p {
+                color: #ddd;
+            }
+            .ui-accordion-header-active {
+                background-color: #aaa;
+            }
+            .ui-widget-content {
+                background-color: #444;
+            }
+            h5 {
+                color: aquamarine;
+            }
+            pre {
+                background-color: #555;
+                color: #ddd;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="accordion" >
+            <h3  class="table-tab">F3v1</h3>
+             <h3>Hierarchy WordPress</h3>
+            <div>
+               <h5>Functions</h5>
+               
+                <pre>
+                    index.php - universal fallback
+                    single.php - is when we click to link from a post. the single.php page will be use and show content
+                    
+                    single.php - only uses the single.php for individual posts for individual pages ( ung  reading kana ng blog)
+                    
+                    page.php - will serve all the pages
+                </pre>
+            </div>
+            <div>
+                <h5>create theme</h5>
+                <p>
+                    go to style.css, write at the top
+                </p>
+                <pre>
+
+                    Theme Name: your theme name
+                    Author: your name
+                    Version: theme version 1.0
+                    name the thumbnail image screenshot
+                </pre>
+
+
+            </div>
+            <h3>f4v1 WordPress Loops</h3>
+            <div>
+               <h5>Functions</h5>
+                <pre>
+                while(have_posts()){
+                the_post()
+                href="the_permalink" the_title() 
+                the_content()
+                }
+                </pre>
+                <h5>
+                    single.php
+                </h5>
+                <pre>
+                    
+                </pre>
+            </div>
+            <h3>Section 3</h3>
+            <div>
+                <p>
+                    Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+                    Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
+                    ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
+                    lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+                </p>
+                <ul>
+                    <li>List item one</li>
+                    <li>List item two</li>
+                    <li>List item three</li>
+                </ul>
+            </div>
+            <h3>Section 4</h3>
+            <div>
+                <p>
+                    Cras dictum. Pellentesque habitant morbi tristique senectus et netus
+                    et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in
+                    faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia
+                    mauris vel est.
+                </p>
+                <p>
+                    Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.
+                    Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+                    inceptos himenaeos.
+                </p>
+            </div>
+        </div>
+
+
+        <script src="jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+        <script>
+            $( function() {
+                $( "#accordion" ).accordion({
+                    collapsible: 1
+
+                });
+
+            } );
+        </script>
+    </body>
+</html>

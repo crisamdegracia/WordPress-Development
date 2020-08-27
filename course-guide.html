@@ -30,20 +30,20 @@
     <body>
 
         <div id="accordion" >
-            <h3  class="table-tab">F3v1</h3>
-             <h3>Hierarchy WordPress</h3>
+            <h3>Hierarchy WordPress</h3>
             <div>
-               <h5>Functions</h5>
-               
+                <h5>Functions</h5>
+
                 <pre>
                     index.php - universal fallback
                     single.php - is when we click to link from a post. the single.php page will be use and show content
-                    
+
                     single.php - only uses the single.php for individual posts for individual pages ( ung  reading kana ng blog)
-                    
+
                     page.php - will serve all the pages
                 </pre>
             </div>
+            <h3  class="table-tab">F3v1 - Create Theme style.css</h3>
             <div>
                 <h5>create theme</h5>
                 <p>
@@ -61,7 +61,7 @@
             </div>
             <h3>f4v1 WordPress Loops</h3>
             <div>
-               <h5>Functions</h5>
+                <h5>Functions</h5>
                 <pre>
                 while(have_posts()){
                 the_post()
@@ -73,37 +73,40 @@
                     single.php
                 </h5>
                 <pre>
-                    
+
                 </pre>
             </div>
-            <h3>Section 3</h3>
+
+            <h3>f4v2 - 11 - header and footer </h3>
             <div>
-                <p>
-                    Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
-                    Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
-                    ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
-                    lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
-                </p>
-                <ul>
-                    <li>List item one</li>
-                    <li>List item two</li>
-                    <li>List item three</li>
-                </ul>
-            </div>
-            <h3>Section 4</h3>
+                <pre>
+                function university_files(){
+        //1st argument - chosen name for function
+        //2nd argument - url
+        wp_enqueue_style('university_main_styles', get_stylesheet_uri() ); 
+        }
+
+        //1st argument - what type of instructions
+        //2nd argument - name of the function 
+        add_action('wp_enqueue_scripts','university_files');
+
+
+            </pre>
+
+
+            </div>   
+
+            <h3>f4v3 - 12 - HTML to WordPress </h3>
             <div>
-                <p>
-                    Cras dictum. Pellentesque habitant morbi tristique senectus et netus
-                    et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in
-                    faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia
-                    mauris vel est.
-                </p>
-                <p>
-                    Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.
-                    Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
-                    inceptos himenaeos.
-                </p>
-            </div>
+               <h5> added aditional CSS to functions and copying static HTML to wordpress</h5>
+                <pre>
+             wp_enqueue_style('custom-google-font', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i' ); 
+
+                wp_enqueue_style('font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' ); 
+            </pre>
+
+                
+            </div>    
         </div>
 
 

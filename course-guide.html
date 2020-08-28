@@ -98,27 +98,81 @@
 
             <h3>f4v3 - 12 - HTML to WordPress </h3>
             <div>
-               <h5> added aditional CSS to functions and copying static HTML to wordpress</h5>
+                <h5> added aditional CSS to functions and copying static HTML to wordpress</h5>
                 <pre>
-             wp_enqueue_style('custom-google-font', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i' ); 
+                //1st argument - chosen name for function
+                //2nd argument - url
+                //3rd argument - WordPress wants to know if this script depends on in other script
+                //if it depending on other dependencies? - no so NULL
+                // 4th in CSS - microtime() - to remove caching in css.
+
+                wp_enqueue_style('university_main_styles', get_stylesheet_uri(), NULL, microtime() ); 
+                wp_enqueue_style('custom-google-font', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i' ); 
 
                 wp_enqueue_style('font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' ); 
             </pre>
 
-                
-            </div>    
-        </div>
+                <pre>
+
+                //3rd argument - WordPress wants to know if this script depends on in other script
+                //if it depending on other dependencies? - no so NULL
+                //4th argument - What is the version but in local dev we need microtime.
+                //microtime - to remove caching of css and js
+                //5th argument - if we want to load it before closing body tag. Yes (True) or No (False)
+                // TRUE - going to the bottom of body tag
+                wp_enqueue_script('main-university-js', get_theme_file_uri('/js/scripts-bundled.js'), NULL, microtime() , TRUE  );
+                </pre>
+
+                <pre>
+                 //1st argument - chosen name for function
+                //2nd argument - url
+                //3rd argument - WordPress wants to know if this script depends on in other script
+                //if it depending on other dependencies? - no so NULL
+                // 4th in CSS - microtime() - to remove caching in css.
+
+                wp_enqueue_style('university_main_styles', get_stylesheet_uri(), NULL, microtime() ); 
+            </pre>
+            </div>   
+
+            <h3>f4v4 - 13 - Prevent Caching CSS and JS Dev </h3>
+            <div>
+                <h5> short vid</h5>
+                <pre>
+                 //microtime - to remove caching of css and js
+                    wp_enqueue_script('main-university-js', get_theme_file_uri('/js/scripts-bundled.js'), NULL, microtime() , TRUE  );
+            </pre>  
 
 
-        <script src="jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-        <script>
-            $( function() {
-                $( "#accordion" ).accordion({
-                    collapsible: 1
 
-                });
+                <h3>f4v5 - 14 - integrate interior page  </h3>
+                <div>
+                    <h5> adding theme features </h5>
+                    <pre>
 
-            } );
-        </script>
-    </body>
-</html>
+                    function university_features(){
+                        //theme functions
+                        add_theme_support('title-tag');  
+                    }
+
+                    //1st argument - wordpress event
+                    //2nd args - function - a name of function we will invent
+                    add_action('after_setup_theme', 'university_features')
+                 </pre>
+
+
+                </div>    
+            </div>
+
+
+            <script src="jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+            <script>
+                $( function() {
+                    $( "#accordion" ).accordion({
+                        collapsible: 1
+
+                    });
+
+                } );
+            </script>
+            </body>
+        </html>

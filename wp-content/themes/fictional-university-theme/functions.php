@@ -4,16 +4,40 @@
 function university_files(){
     //1st argument - chosen name for function
     //2nd argument - url
-    wp_enqueue_style('university_main_styles', get_stylesheet_uri() ); 
-    
+     //3rd argument - WordPress wants to know if this script depends on in other script
+    //if it depending on other dependencies? - no so NULL
+    // 4th in CSS - microtime() - to remove caching in css.
+    wp_enqueue_style('university_main_styles', get_stylesheet_uri(), NULL, microtime() ); 
+
     wp_enqueue_style('custom-google-font', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i' ); 
-    
+
     wp_enqueue_style('font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' ); 
+
+    //3rd argument - WordPress wants to know if this script depends on in other script
+    //if it depending on other dependencies? - no so NULL
+    //4th argument - What is the version but in local dev we need microtime.
+    //microtime - to remove caching of css and js
+    //5th argument - if we want to load it before closing body tag. Yes (True) or No (False)
+    // TRUE - going to the bottom of body tag
+    wp_enqueue_script('main-university-js', get_theme_file_uri('/js/scripts-bundled.js'), NULL, microtime() , TRUE  );
 }
 
 //1st argument - what type of instructions
 //2nd argument - name of the function 
 add_action('wp_enqueue_scripts','university_files');
+
+
+function university_features(){
+    
+    //theme functions
+    add_theme_support('title-tag');  
+    
+    
+}
+
+//1st argument - wordpress event
+//2nd args - function - a name of function we will invent
+add_action('after_setup_theme', 'university_features')
 
 
 

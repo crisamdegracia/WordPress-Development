@@ -30,6 +30,19 @@
     <body>
 
         <div id="accordion" >
+            <h3> Course Functions | WordPress Functions </h3>
+            <div>
+                <pre>
+
+               while() - loop
+               the_title()
+               the_content()
+               get_the_ID()
+               wp_list_pages() - outputing the list of pages
+               get_pages - return the pages in memory. whaaaT???
+               get_the_title( wp_get_post_parent_id( get_the_ID() ) ) - this will work really nicely if this returns zero means the current page is the parent page
+              </pre>
+            </div>
             <h3>Hierarchy WordPress</h3>
             <div>
                 <h5>Functions</h5>
@@ -142,12 +155,12 @@
                     wp_enqueue_script('main-university-js', get_theme_file_uri('/js/scripts-bundled.js'), NULL, microtime() , TRUE  );
             </pre>  
 
+            </div>
 
-
-                <h3>f4v5 - 14 - integrate interior page  </h3>
-                <div>
-                    <h5> adding theme features </h5>
-                    <pre>
+            <h3>f5v14 - integrate interior page  </h3>
+            <div>
+                <h5> adding theme features </h5>
+                <pre>
 
                     function university_features(){
                         //theme functions
@@ -160,19 +173,95 @@
                  </pre>
 
 
-                </div>    
+            </div>    
+
+            <h3>f5v15 - Parent and Children Pages | with [if] statement   </h3>
+            <div>
+                <h5> Parent and Child Theme relation </h5>
+                <pre>
+                    we create OUR HISTORY page. then on page attribute ( right side panel )
+                    instead of no paren we choose ABOUT US 
+                    Same in creating OUR GOAL PAGE
+               </pre>
+
+                <h5> Get the parent ID </h5>
+                <pre>
+                echo get_the_ID() - will give us the page ID
+
+                wp_get_post_parent_id(get_the_ID()) - it will give us the ID of the parent page
+                - or we want to know if the current page has a parent page - and give the parenthesis an argument of the page ID
+                - it will give us [0] zero, if it has no parent page.
+                - now if its has a parent page i will give us integer any value.
+
+
+                the_title() - will give you the current page title 
+                get_the_title(get_the_ID()) - allows us to pass an ID number the title for that post instead of just the current post that you've looped through.
+            </pre>
+
+                <h5> echo or not echo </h5>
+                <pre>
+                all wp function starts with [get]
+                will not echo the value instead use the [echo]
+                to output it out
+            </pre>
+            </div>
+            <h3> f5v17 - Menu of Child Page Links | hirap dito men pero nagets ko | </h3>
+            <div>
+                <h5>Angaling dito .</h5>
+                <pre>
+                       get_the_title( wp_get_post_parent_id( get_the_ID() ) ) 
+                       - this will work really nicely if this returns zero means the current page is the parent page
+                </pre>
+
+
+                <pre>
+                    $testArray = get_pages( array(
+                         'child_of'   => get_the_ID()  //-- if the current page has children this function wil return a collection of any and all children
+
+                         - on the other hand if the pages doesnt have any children this function won't return anything - it will return NULL of False
+                    ))
+
+                    -     
+                </pre>
+                <h5> Pusang gala - sana maalala ko nog?</h5>
+                <pre>
+
+        $parentPageID  = wp_get_post_parent_id( get_the_ID() );
+
+
+         if (  $parentPageID  )
+
+
+        if( $parentPageID ){
+            $findChildrenOf = $parentPageID;
+        } else {
+            $findChildrenOf = get_the_ID();
+        }
+          wp_list_pages( array(
+          //title_li is empty 
+         //child_of - numerical ID of a certain page or post
+          //sort_column => 'menu_order' we can choose the order output of link -
+        // ^ you can control this on right panel and choose the order number
+          'title_li' => NULL,
+          'child_of' => $findChildrenOf,
+           'sort_column' => 'menu_order'
+      ))
+
+                </pre>
             </div>
 
+        </div>
 
-            <script src="jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-            <script>
-                $( function() {
-                    $( "#accordion" ).accordion({
-                        collapsible: 1
 
-                    });
+        <script src="jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+        <script>
+            $( function() {
+                $( "#accordion" ).accordion({
+                    collapsible: 1
 
-                } );
-            </script>
-            </body>
-        </html>
+                });
+
+            } );
+        </script>
+    </body>
+</html>

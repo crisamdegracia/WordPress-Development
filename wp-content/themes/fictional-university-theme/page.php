@@ -17,10 +17,11 @@ get_header();
 <div class="container container--narrow page-section">
 
     <?php
-
+    /* Get the ID of the parent page if meron. */
     $parentPageID  = wp_get_post_parent_id( get_the_ID() );
 
-
+         // if nasa child page tayo we will check here kung merong parent page 
+         // tapos yan ung magiging output
          if (  $parentPageID  ) { ?>
 
     <div class="metabox metabox--position-up metabox--with-home-link">
@@ -36,10 +37,16 @@ get_header();
 
     <?php 
 
+    // $testArray's role here is to double check
+    //child_of - numerical ID of a certain page or post
+    // kung parehas merong parent page lalabas ung links sa gilid
     $testArray = get_pages(array(
         'child_of'  => get_the_ID()
     ));
-
+    
+    //1st condition we test that 
+    //if parentPageID has an ID
+    //2nd condition is to check the child page
     if( $parentPageID or $testArray ) { ?>
 
     <div class="page-links">

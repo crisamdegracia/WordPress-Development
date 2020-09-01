@@ -4,7 +4,7 @@
 function university_files(){
     //1st argument - chosen name for function
     //2nd argument - url
-     //3rd argument - WordPress wants to know if this script depends on in other script
+    //3rd argument - WordPress wants to know if this script depends on in other script
     //if it depending on other dependencies? - no so NULL
     // 4th in CSS - microtime() - to remove caching in css.
     wp_enqueue_style('university_main_styles', get_stylesheet_uri(), NULL, microtime() ); 
@@ -28,11 +28,19 @@ add_action('wp_enqueue_scripts','university_files');
 
 
 function university_features(){
-    
     //theme functions
+
+    // 1st arg - name para mapoint out dun sa front end 
+    //2nd argument - this is the text that will show up in WP admin screen 
+    register_nav_menu('headerMenuLocation', 'Header Menu Location'); 
+    register_nav_menu('footerMenuLocationOne', 'Footer Menu Location One'); 
+    register_nav_menu('footerMenuLocationTwo', 'Footer Menu Location Two'); 
+    
+    //show the title on browser tag
     add_theme_support('title-tag');  
-    
-    
+
+
+
 }
 
 //1st argument - wordpress event

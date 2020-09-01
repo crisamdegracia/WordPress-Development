@@ -33,7 +33,7 @@
             <h3> Course Functions | WordPress Functions </h3>
             <div>
                 <pre>
-
+               wp_reset_postdata(); always put this at the end of the loop
                while() - loop
                the_title()
                the_content()
@@ -41,6 +41,18 @@
                wp_list_pages() - outputing the list of pages
                get_pages - return the pages in memory. whaaaT???
                get_the_title( wp_get_post_parent_id( get_the_ID() ) ) - this will work really nicely if this returns zero means the current page is the parent page
+
+               the_author_posts_link();
+               the_date(); 
+               the_time('n.j.y') - from the course
+               the_category()
+               echo get_the_category_list(', ') - gives the category
+
+               echo paginate_links() - shows the pagination
+
+                the_archive_title(); - shows the title for, author, category, dates
+                the_archive_description() - gives the archive description of course!
+                wp_trim_words(get_the_content(), 10) - 1st arg is the content we want to limit - 2nd args is how many words
               </pre>
             </div>
             <h3>Hierarchy WordPress</h3>
@@ -48,14 +60,18 @@
                 <h5>Functions</h5>
 
                 <pre>
-                    index.php - universal fallback
+                    index.php - universal fallback - the blog page can use this
                     single.php - is when we click to link from a post. the single.php page will be use and show content
-
+                    single.php - eto ung pag click ng blog ( index.php ) pupunta dito. 
                     single.php - only uses the single.php for individual posts for individual pages ( ung  reading kana ng blog)
 
                     page.php - will serve all the pages
+
+                    front-page.php - is for home page
                 </pre>
             </div>
+
+
             <h3  class="table-tab">F3v1 - Create Theme style.css</h3>
             <div>
                 <h5>create theme</h5>
@@ -72,7 +88,9 @@
 
 
             </div>
-            <h3>f4v1 WordPress Loops</h3>
+
+
+            <h3>f410 -  WordPress Loops</h3>
             <div>
                 <h5>Functions</h5>
                 <pre>
@@ -90,7 +108,7 @@
                 </pre>
             </div>
 
-            <h3>f4v2 - 11 - header and footer </h3>
+            <h3>f411 - header and footer </h3>
             <div>
                 <pre>
                 function university_files(){
@@ -109,7 +127,7 @@
 
             </div>   
 
-            <h3>f4v3 - 12 - HTML to WordPress </h3>
+            <h3>f412 -  - HTML to WordPress </h3>
             <div>
                 <h5> added aditional CSS to functions and copying static HTML to wordpress</h5>
                 <pre>
@@ -147,7 +165,7 @@
             </pre>
             </div>   
 
-            <h3>f4v4 - 13 - Prevent Caching CSS and JS Dev </h3>
+            <h3>f413 - Prevent Caching CSS and JS Dev </h3>
             <div>
                 <h5> short vid</h5>
                 <pre>
@@ -250,7 +268,93 @@
                 </pre>
             </div>
 
+
+            <h3> f5v18 - Quick Edits</h3>
+            <div>
+                <pre>
+                       language-attributes()
+                       charset=bloginfo('charset')
+                       body_class()
+
+                        </pre>
+            </div>
+
+
+            <h3>f5v19 - Navigation Menus </h3>
+            <div>
+                <h5>Dynamic</h5>
+                <pre>
+
+                register_nav_menu('footerMenuLocationOne', 'Footer Menu Location One');
+
+                wp_nav_menu(array(
+                  'theme_location' => 'footerMenuLocationOne'
+
+                </pre>
+                <h5> Custom</h5>
+                <pre>
+                   If we are on the current page the menu link will lit
+
+                    [?php if( is_page('about-us') or wp_get_post_parent_id(0) == 10) echo 'class="current-menu-item"' ?] >[a href="[?php echo site_url('/about-us')  ?]" About Us[/a]
+
+                </pre>
+            </div>
+
+            <h3>f6v22 - Blog Archives | ung author and category page </h3>
+            <div>
+                <h5>Author and Category the old way </h5>
+                <pre>
+                    if( is_category() ){
+                        single_cat_title();
+                    }
+                         if( is_author() ){
+                            echo 'Posts by :  ';    the_author();
+                         }
+                </pre>
+                <h5> Author, Category, Dates - Dynamic</h5>
+                <pre>
+                the_archive_title() - gives the title of author, category, dates
+
+                the_archive_description()
+                </pre>
+            </div>
+
+            <h3>f623 - Custom Queries | Finally </h3>
+            <div>
+                <h5></h5>
+                <pre>
+              $homepagePosts = new WP_Query(array(
+                        'posts_per_page' => 2
+                    ));
+
+                 while( $homepagePosts->have_posts()  ){
+             $homepagePosts->the_post();
+               </pre>
+                <pre>
+                    wp_trim_words(get_the_content(), 10)
+
+                    1st args- is what we want to trim
+                    2nd args how may words we display
+                </pre>
+
+                <h5> Important </h5>
+                <pre>
+                   always put this at the end of the loop
+                    wp_reset_postdata();
+                    
+                    this will reset the different WordPress Data and global variables back 
+                    to the state that it was in when it made its default automatic query based on the
+                    current URL right before we came along and made a custom query
+                    
+                    calling this function is not 100% necessary specially if youre towards 
+                    the bottom of the template file, but its a really good habit to get into 
+                </pre>
+            </div>
         </div>
+
+
+
+
 
 
         <script src="jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.min.js"></script>

@@ -35,7 +35,7 @@ function university_features(){
     register_nav_menu('headerMenuLocation', 'Header Menu Location'); 
     register_nav_menu('footerMenuLocationOne', 'Footer Menu Location One'); 
     register_nav_menu('footerMenuLocationTwo', 'Footer Menu Location Two'); 
-    
+
     //show the title on browser tag
     add_theme_support('title-tag');  
 
@@ -45,11 +45,7 @@ function university_features(){
 
 //1st argument - wordpress event
 //2nd args - function - a name of function we will invent
-add_action('after_setup_theme', 'university_features')
-
-
-
-
+add_action('after_setup_theme', 'university_features');
 
 
 

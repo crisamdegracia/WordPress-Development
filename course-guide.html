@@ -45,6 +45,9 @@
                the_author_posts_link();
                the_date(); 
                the_time('n.j.y') - from the course
+               the_time('M') - big letter M - Month
+               the_time('d') - small letter d Day
+
                the_category()
                echo get_the_category_list(', ') - gives the category
 
@@ -53,6 +56,17 @@
                 the_archive_title(); - shows the title for, author, category, dates
                 the_archive_description() - gives the archive description of course!
                 wp_trim_words(get_the_content(), 10) - 1st arg is the content we want to limit - 2nd args is how many words
+
+                echo get_post_type_archive_link('event') - to get the permalink of the archive ?? whattt??
+
+
+                has_excerpt() - usually for ir condition
+                            - will return a value of TRU if the current
+                            post has a hand-crafted excerpt
+
+                get_post_type_archive_link('event') - give the correct CPT link
+
+                get_post_type()  = can use in if condition - will return the current CPT
               </pre>
             </div>
             <h3>Hierarchy WordPress</h3>
@@ -61,13 +75,24 @@
 
                 <pre>
                     index.php - universal fallback - the blog page can use this
-                    single.php - is when we click to link from a post. the single.php page will be use and show content
-                    single.php - eto ung pag click ng blog ( index.php ) pupunta dito. 
-                    single.php - only uses the single.php for individual posts for individual pages ( ung  reading kana ng blog)
+                              - pang blog talga ata sya? video 30 still using this as a blog page
+
+                    single.php - is when we click to link from a post.
+                             - the single.php page will be use and show content
+                             - eto ung pag click ng blog ( index.php ) pupunta dito. 
+                             - only uses the single.php for individual posts for individual pages ( ung  reading kana ng blog)
+
+                    single-[CUSTOM POST TYPE] - dito pupunta ung post ng custom post type
 
                     page.php - will serve all the pages
 
+                    archive.php - will serve the - author page, category page, date page
+
+                    archive-[CUSTOM POST TYPE] - this will serve as the archive page for CPT
+                    - just copy the HTML of archive.php - 
+
                     front-page.php - is for home page
+
                 </pre>
             </div>
 
@@ -341,13 +366,129 @@
                 <pre>
                    always put this at the end of the loop
                     wp_reset_postdata();
-                    
+
                     this will reset the different WordPress Data and global variables back 
                     to the state that it was in when it made its default automatic query based on the
                     current URL right before we came along and made a custom query
-                    
+
                     calling this function is not 100% necessary specially if youre towards 
                     the bottom of the template file, but its a really good habit to get into 
+                </pre>
+
+            </div>
+
+
+            <h3>f726 -   </h3>
+            <div></div>
+            <h3>f7v27 and 28 - GULP WATCH Auto loading fronpage CSS and JS</h3>
+            <div></div>
+
+            <h3> f9v29 - Custom Post Types </h3>
+            <div>
+                <h5>Put it in /wp-content/ create mu-plugins folder then create php file</h5>
+                <pre>
+
+                    function university_post_types(){
+
+                        //public - this will make visible to editors and viewers of the website
+                        //labels -> name -> the name on side panel 
+                        //has_archive -> true - to tell WP to create an archive page for this CPT
+                        //'rewrite' => array('slug' => 'events') -- will change the URL link from singular to plural - ['slug' => 'events'] we can actually invent the word 'events'  to pizza or anything!
+                        register_post_type('event', array(
+                            'rewrite' => array('slug' => 'events'),
+                            'has_archive' => true,
+                            'public' => true,
+                            'labels' => array(
+                                'name' => 'Events',
+                                'add_new_item' => 'Add New Event',
+                                'edit_item' => 'Edit Event',
+                                'all_items' => 'All Events',
+                                'singular_name' => 'Event'
+                            ),
+                            'menu_icon' => 'dashicons-calendar'
+                        ));
+                    }
+
+                    // 1st args a hook
+                    // name of a function
+                    add_action('init', 'university_post_types');
+
+
+                </pre>
+
+                <pre>
+                    So if ever the theme file deactivated the post type will still be there.
+                </pre>
+            </div>
+
+
+            <h3> f9v30 - Displaying Custom Post Type </h3>
+            <div> 
+
+                <pre>
+                gumawa ng single-[Custom-Post-Type-Name-HERE] - para dun sa mga post 
+
+                gumawa ng achive-[Custom-Post-Type-Name-HERE] - para dun sa pinaka page ng Custom-Post-Type-Name-HERE 
+
+                ginamit ung HTML ng single.php sa single-[Custom-Post-Type-Name-HERE]
+
+                ginamit ung HTML ng archive.php sa archive-[Custom-Post-Type-Name-HERE]
+
+                inedit lang ng unti
+
+                nirefresh ung permalink para marefresh ung site URLS
+
+
+            </pre>
+
+                <pre>
+
+                                function university_post_types(){
+
+                    //public - this will make visible to editors and viewers of the website
+                    //labels -> name -> the name on side panel 
+                    //has_archive -> true - to tell WP to create an archive page for this CPT
+                    //'rewrite' => array('slug' => 'events') -- will change the URL link from singular to plural - ['slug' => 'events'] we can actually invent the word 'events'  to pizza or anything!
+                    register_post_type('event', array(
+                        'rewrite' => array('slug' => 'events'),
+                        'has_archive' => true,
+                        'public' => true,
+                        'labels' => array(
+                            'name' => 'Events',
+                            'add_new_item' => 'Add New Event',
+                            'edit_item' => 'Edit Event',
+                            'all_items' => 'All Events',
+                            'singular_name' => 'Event'
+                        ),
+                        'menu_icon' => 'dashicons-calendar'
+                    ));
+                }
+
+                // 1st args a hook
+                // name of a function
+                add_action('init', 'university_post_types');
+
+
+            </pre>
+
+            </div>
+
+            <h3>f9v31 - Quick edit - wp_trim_words() + the_excerpt() </h3>
+            <div>
+                <h5> Combination </h5>
+                <pre>
+                    if( has_excerpt() ) {
+                           echo get_the_excerpt();          
+            } else {
+                echo wp_trim_words(get_the_content(), 18 );
+            }
+                </pre>
+
+                <pre>
+
+                get_post_type_archive_link('event') - give the correct CPT link
+
+                get_post_type()  = can use in if condition - will return the current CPT
                 </pre>
             </div>
         </div>

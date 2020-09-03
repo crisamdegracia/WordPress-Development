@@ -54,7 +54,32 @@ function university_adjust_queries($query){
     // set has 2 args
     //1st args is the name of a query parameter that we want to change
     // the value that we want to use
-    $query->set('posts_per_page', '1');
+    //$query->set('posts_per_page', '1');
+    //if not in the admin -
+    // kung nasa post type archive event daw tayo
+    //$query so if daw the $query that is being passed into our function
+    // the $query then we can look for a method named is_main_query() 
+    // so this way daw we cannot accidentally manipulate a custom query
+    // $query->is_main_query() - will only evaluate to true if
+    // the query in question is the default URL based query
+    //Always perform 1 more check
+    if ( !is_admin() AND is_post_type_archive('event') AND $query->is_main_query() ) {
+        
+        $today = date('Ymd');
+        $query->set('meta_key', 'event_date');
+        $query->set('orderby', 'meta_value_num');
+        $query->set('order', 'ASC');
+        $query->set('meta_query', array(
+            array(
+                'key'      => 'event_date',
+                'compare'  => '>=',
+                'value'    =>   $today,
+                'type'     => 'numeric'
+            )
+        )
+                   );
+
+    }
 }
 
 //pre_get_posts - ryt before we get the post with the query

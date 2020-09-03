@@ -6,9 +6,9 @@ function university_post_types(){
     //labels -> name -> the name on side panel 
     //has_archive -> true - to tell WP to create an archive page for this CPT
     //'rewrite' => array('slug' => 'events') -- will change the URL link from singular to plural - ['slug' => 'events'] we can actually invent the word 'events'  to pizza or anything!
-    //supports -  para maging available ung dun sa excerpt
+    //supports -  para maging available ung dun sa excerpt and all
     register_post_type('event', array(
-        'supports' => array('title', 'editor', 'excerpt'),
+        'supports' => array('title', 'editor', 'excerpt', 'custom-fields'),
         'rewrite' => array('slug' => 'events'),
         'has_archive' => true,
         'public' => true,

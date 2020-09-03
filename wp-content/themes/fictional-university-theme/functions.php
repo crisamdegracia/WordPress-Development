@@ -50,7 +50,16 @@ add_action('after_setup_theme', 'university_features');
 
 
 
+function university_adjust_queries($query){
+    // set has 2 args
+    //1st args is the name of a query parameter that we want to change
+    // the value that we want to use
+    $query->set('posts_per_page', '1');
+}
 
+//pre_get_posts - ryt before we get the post with the query
+// its going to give a reference to the wordpress query object
+add_action('pre_get_posts', 'university_adjust_queries');
 
 
 

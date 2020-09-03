@@ -1,6 +1,9 @@
 <?php 
 get_header();
 ?>
+
+<!-- THE BLOG PAGE -->
+
 <div class="page-banner">
     <div class="page-banner__bg-image" style="background-image: <?php bloginfo('template_directory') ?>/images/ocean.jpg"></div>
     <div class="page-banner__content container container--narrow">

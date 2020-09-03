@@ -67,7 +67,13 @@
                 get_post_type_archive_link('event') - give the correct CPT link
 
                 get_post_type()  = can use in if condition - will return the current CPT
-              </pre>
+                
+                <h5> Advance Custom Fields</h5>
+                  get_post_field() - for pick date - get_field() doesnt work
+                           
+                        $eventDate = new DateTime( get_post_field('event_date')) ;
+                        echo $eventDate->format('M');
+                            </pre>
             </div>
             <h3>Hierarchy WordPress</h3>
             <div>
@@ -489,6 +495,75 @@
                 get_post_type_archive_link('event') - give the correct CPT link
 
                 get_post_type()  = can use in if condition - will return the current CPT
+                </pre>
+            </div>
+
+            <h3>f9v32 - Advanced Custom Fields </h3>
+            <div>
+                <pre>
+                We create custom field then ouput it in fron-end
+                
+                get_post_field()
+                </pre>
+            </div>
+            
+            <h3>f9v33 - Advance Custom Fields - ordering | sorting</h3>
+            <div>
+               <h5>1st introduction of the meta_queries</h5>
+                <pre>
+               
+                //post_per_page - kung ilan lilitaw dun sa fron-end
+                //post_type - kung anong post type
+                // orderby - post_date - the date that the post was created or published
+                // ^       - value [post_date] is the default value
+                //^ value [title] - will be alphabetically
+                //^ orderby->rand - post will be random
+                //^ orderby->meta_value_num - it need the meta_key 1st - then the value means that the orderby will be base on any value of Post Type.
+                // meta_key-event_date - the ACF variabe
+                // 'posts_per_page' => -1, -1 meaning the WP will give all the posts
+                // order -> DESC - post will be descending 
+                // order -> ASC - post will be Ascending 
+
+                // meta_query - array-> 
+                //  ^key - the ACF
+                //  ^compare - the condition
+                //  ^value  - here is date $today
+                $today = date('Ymd');
+                     $eventPostType = new WP_Query(array(
+                         'posts_per_page'   => 2,
+                         'post_type'        => 'event',
+                         'meta_key'         => 'event_date',
+                         'orderby'          => 'meta_value_num',
+                         'order'            => 'ASC',
+                         'meta_query' => array(
+                             array(
+                                 'key'      => 'event_date',
+                                 'compare'  => '>=',
+                                 'value'    =>   $today,
+                                 'type'     => 'numeric'
+                             )
+                         )
+                </pre>
+            </div>
+            
+            <h3>f934 - Manipulating Defaul URL Based Queries</h3>
+            <div>
+               <h5> and nagyare - nag karoon ng pagination ung posts pages - ung post type and blog page . without using pagination() function</h5>
+               <h5> kahit ung sa backend sa WP panel naging isa nalang ung post! which is 3 un! </h5>
+               <h5>very powerful!</h5>
+                <pre>
+            function university_adjust_queries($query){
+                // set has 2 args
+                //1st args is the name of a query parameter that we want to change
+                // the value that we want to use
+                $query->set('posts_per_page', '1');
+            }
+
+            //pre_get_posts - ryt before we get the post with the query
+            // its going to give a reference to the wordpress query object
+            add_action('pre_get_posts', 'university_adjust_queries');
+
+
                 </pre>
             </div>
         </div>

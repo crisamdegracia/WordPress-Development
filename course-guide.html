@@ -3,8 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <title>Course Guide - WordPress Developer</title>
-        <script src="jquery-v3.5.1.js"></script>
-        <link rel="stylesheet" href="jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.min.css">
+        <script src="../jquery-v3.5.1.js"></script>
+        <link rel="stylesheet" href="../jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.min.css">
         <style>
             body {
                 background-color: #333;
@@ -32,6 +32,19 @@
         <div id="accordion" >
             <h3> Course Functions | WordPress Functions </h3>
             <div>
+               
+               <pre>
+                   steps in creating Custom Post Type 
+                   - create on mu-plugins folder
+                   - register it to .php file
+                   - create single-[CPTname]
+                   - copy the single- HTML file to reduce coding
+                   - create condition to display on front-end
+                   - addjust the filter
+                   
+                   - create archive - for its unique content
+                   - 
+               </pre>
                 <pre>
                wp_reset_postdata(); always put this at the end of the loop
                while() - loop
@@ -73,6 +86,11 @@
 
                         $eventDate = new DateTime( get_post_field('event_date')) ;
                         echo $eventDate->format('M');
+
+                           is_page('past-events') - kung nasa page tayo ng post type
+
+                    is_admin() - will return true if we are on the admin portion of the website.
+                    !is_admin() - will return true if we are on the front-end portion of the website.
                             </pre>
             </div>
             <h3>Hierarchy WordPress</h3>
@@ -80,6 +98,9 @@
                 <h5>Functions</h5>
 
                 <pre>
+
+                   every custom post type has - single-[CTPname], archive-[CPTname]
+
                     index.php - universal fallback - the blog page can use this
                               - pang blog talga ata sya? video 30 still using this as a blog page
 
@@ -119,7 +140,6 @@
 
 
             </div>
-
 
             <h3>f410 -  WordPress Loops</h3>
             <div>
@@ -593,7 +613,7 @@
 
                 </pre>
 
-                <h5>final explain</h5>
+                <h5>final explain | para imbes na gwin dun sa pinaka file for example index.php, dito nalang sya sa functions.php gagawin, para mas malinis. so ganto ang pag gawa ng custom post type sa function.php</h5>
                 <pre>
 
                 function university_adjust_queries($query){
@@ -636,27 +656,166 @@
 
                 </pre>
             </div>
-            
+
             <h3>f9v35 - Past Events Page - Custom Query Pagination </h3>
             <div>
-               <pre>
+                <pre>
                    echo paginate_links() will display the default URL base queries, so if we want to display custom post type pagination we need to create function like below.
                </pre>
                 <pre>
                     echo paginate_links(array(
-        'total' => $pastEvents->max_num_pages
+                'total' => $pastEvents->max_num_pages
 
 ));
                 </pre>
             </div>
+
+            <h3>f9v36 - Creating Programs Post Type | creating relationship between content</h3>
+            <div>
+
+                <pre>
+                 //the 3rd condition - if only the $query in question can look inside its main 
+                    //query -- so that way we dont manipulate any secondary custom quries,
+                    // we only want to manipulate the main default URL based query
+                    // this is the safest condition check
+                    if( !is_admin() AND is_post_type_archive('program') AND $query->is_main_query() ) {
+                        $query->set('orderby','title');
+                        $query->set('order','ASC'); 
+                        $query->set('post_per_page', 5); 
+                    }
+                </pre>
+
+                <h5>Creating relationship between Program and Event</h5>
+
+                <pre>
+                    Gumawa kami sa Advance Custom Fields - ang notable na gina is -
+                    ung filter by post type is [Program] 
+                    - tapos ung dun sa Location na sa baba - ung show this field group if - is equal - Event
+
+                    <h5> And nangyari - nag karon ng relationship form dun sa Program post type </h5>
+
+                    <pre>
+                        next video - displaying to fron-end
+                    </pre>
+                </pre>
+
+            </div>
+            <h3>f937 - Displaying Relationship to front-end</h3>
+            <div>
+                <h5>
+                    kapag my foreach - we need to use echo get_the_whatever, para gumana
+                </h5>
+                <pre>
+
+
+               $relatedPrograms = get_field('related_programs');
+
+                foreach($relatedPrograms as $program ){    ?>
+
+                 href="php echo get_the_permalink($program) "> php echo get_the_title(); 
+
+                </pre>
+
+                <h5>In single-programs.php - we create 2 filters </h5>
+
+
+                <pre>
+
+                    //post_per_page - kung ilan lilitaw dun sa fron-end
+                    //post_type - kung anong post type
+                    // orderby - post_date - the date that the post was created or published
+                    // ^       - value [post_date] is the default value
+                    //^ value [title] - will be alphabetically
+                    //^ orderby->rand - post will be random
+                    //^ orderby->meta_value_num - it need the meta_key 1st - then the value means that the orderby will be base on any value of Post Type.
+                    // meta_key-event_date - the ACF variabe
+                    // 'posts_per_page' => -1, -1 meaning the WP will give all the posts
+                    // order -> DESC - post will be descending 
+                    // order -> ASC - post will be Ascending 
+
+                    // meta_query - array-> 
+                    //  ^key - the ACF
+                    //  ^compare - the condition
+                    //  ^value  - here is date $today
+                    $today = date('Ymd');
+                         $eventPostType = new WP_Query(array(
+                             'posts_per_page'   => 2,
+                             'post_type'        => 'event',
+                             'meta_key'         => 'event_date',
+                             'orderby'          => 'meta_value_num',
+                             'order'            => 'ASC',
+                             'meta_query' => array(
+                                 array(
+                                     'key'      => 'event_date',
+                                     'compare'  => '>=',
+                                     'value'    =>   $today,
+                                     'type'     => 'numeric'
+                                 ),
+                                 <h5>this is the 2nd filter </h5>
+                                 --------------------------------------------
+                                  array(
+                                     'key'      => 'related_programs',
+                                     'compare'  => 'LIKE',
+                                     'value'    =>  '"'. get_the_ID()  .'"'
+                                 )
+                                 --------------------------------------------
+                             )
+
+                         ));
+
+                </pre>
+            </div>
+
+            <h3> f9v38 - Quick Edits </h3>
+            <div>
+
+                <h5>     single-program.php </h5>
+                <pre>
+        Nilagyan lang ng IF condition.
+                </pre>
+                <pre>
+                     /* IF CONDITION */
+    /* para hindi mag appear ung UPCOMING EVENTS na title tag
+    tapos sa loob nun ung content na relation nun sa event?? gets moba ? ano kaya pa?
+    */
+
+    if($eventPostType->have_posts()) { 
+
+
+                </pre>
+            </div>
+            <h3>f10v39 - Professor Post Type</h3>
+            <div>
+                <pre>
+                  $relatedProfessor = new WP_Query(array(
+                        'posts_per_page'   => -1,
+                        'post_type'        => 'professor',
+                        'orderby'          => 'title',
+                        'order'            => 'ASC',
+                        'meta_query' => array(
+                            array(
+                                'key'      => 'related_programs',
+                                'compare'  => 'LIKE',
+                                'value'    =>  '"'. get_the_ID() .'"'
+                            )
+                        )
+
+                    ));
+                </pre>
+                <pre>
+                    wp_reset_postdata();
+                </pre>
+                
+                video stop at 15:40
+            </div>
         </div>
 
 
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut dicta facilis quis excepturi, labore eaque totam eligendi odio iure, aspernatur culpa provident magnam harum exercitationem rem impedit, quia deleniti? Dignissimos tempore, numquam ducimus esse. Itaque ut nemo deserunt, facere eligendi earum aspernatur doloremque aliquid, eos ad ea. Culpa, veniam, beatae!
 
 
 
-
-        <script src="jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+        <script src="../jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.min.js"></script>
         <script>
             $( function() {
                 $( "#accordion" ).accordion({

@@ -63,6 +63,8 @@ function university_adjust_queries($query){
     // $query->is_main_query() - will only evaluate to true if
     // the query in question is the default URL based query
     //Always perform 1 more check
+    // is_admin() - will return true if we are on the admin panel of our website
+    // !is_admin() - will return true if we are on the front-end of our website
     if ( !is_admin() AND is_post_type_archive('event') AND $query->is_main_query() ) {
         
         $today = date('Ymd');
@@ -80,6 +82,18 @@ function university_adjust_queries($query){
                    );
 
     }
+    
+    //the 3rd condition - if only the $query in question can look inside its main 
+    //query -- so that way we dont manipulate any secondary custom quries,
+    // we only want to manipulate the main default URL based query
+    // this is the safest condition check
+    if( !is_admin() AND is_post_type_archive('program') AND $query->is_main_query() ) {
+        $query->set('orderby','title');
+        $query->set('order','ASC'); 
+        $query->set('post_per_page', 5); 
+    }
+    
+    
 }
 
 //pre_get_posts - ryt before we get the post with the query

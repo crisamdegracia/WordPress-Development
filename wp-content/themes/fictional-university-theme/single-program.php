@@ -45,21 +45,21 @@ while (have_posts()){
         //  ^key - the ACF
         //  ^compare - the condition
         //  ^value  - here is date $today
-    
-    $relatedProfessor = new WP_Query(array(
-        'posts_per_page'   => -1,
-        'post_type'        => 'professor',
-        'orderby'          => 'title',
-        'order'            => 'ASC',
-        'meta_query' => array(
-            array(
-                'key'      => 'related_programs',
-                'compare'  => 'LIKE',
-                'value'    =>  '"'. get_the_ID() .'"'
-            )
-        )
 
-    ));
+        $relatedProfessor = new WP_Query(array(
+            'posts_per_page'   => -1,
+            'post_type'        => 'professor',
+            'orderby'          => 'title',
+            'order'            => 'ASC',
+            'meta_query' => array(
+                array(
+                    'key'      => 'related_programs',
+                    'compare'  => 'LIKE',
+                    'value'    =>  '"'. get_the_ID() .'"'
+                )
+            )
+
+        ));
 
     /* IF CONDITION */
     /* para hindi mag appear ung UPCOMING EVENTS na title tag
@@ -71,32 +71,35 @@ while (have_posts()){
 
         echo '<hr class="section-break">';
         echo '<h2 class="headline headline--medium" >' . get_the_title() . ' Professor </h2>';
+
+echo '<ul class="professor-cards">';
         while( $relatedProfessor->have_posts()){
-             $relatedProfessor->the_post(); 
+            $relatedProfessor->the_post(); 
 
-        
-            //     echo get_fields('event_date') . 'asddasd <br>';
-            //     echo get_field_object('event_date') . 'asddasd <br>';
-            //     echo get_sub_field('event_date') . 'asddasd<br> ';
-            //     echo get_post_field('event_date') . 'asddasd<br> ';
     ?>
-   
-   
-   <li><a href="<?php the_permalink() ?>"> <?php  the_title() ?></a></li>
+    <li class="professor-card__list-item">
+        <a class="professor-card" href="<?php the_permalink() ?>">
+        <img src="<?php the_post_thumbnail_url('professorLandscape'); ?>" alt="" class="professor-card__image">
+        <span class="professor-card__name"><?php the_title(); ?></span>
+        </a>
+    </li>
+
+
+
+
     <?php }
-    
+    echo '</ul>' 
     ?>
-
-
+    <!--related Professor-->
 
     <?php }  
     wp_reset_postdata();
-    
+
     ?>
     <!--Event post type Loop-->
 
 
-<?php
+    <?php
 
 
     //post_per_page - kung ilan lilitaw dun sa fron-end
@@ -117,24 +120,24 @@ while (have_posts()){
     //  ^value  - here is date $today
     $today = date('Ymd');
     $eventPostType = new WP_Query(array(
-    'posts_per_page'   => 2,
-    'post_type'        => 'event',
-    'meta_key'         => 'event_date',
-    'orderby'          => 'meta_value_num',
-    'order'            => 'ASC',
-    'meta_query' => array(
-    array(
-    'key'      => 'event_date',
-    'compare'  => '>=',
-    'value'    =>   $today,
-    'type'     => 'numeric'
-    ),
-    array(
-    'key'      => 'related_programs',
-    'compare'  => 'LIKE',
-    'value'    =>  '"'. get_the_ID()  .'"'
-    )
-    )
+        'posts_per_page'   => 2,
+        'post_type'        => 'event',
+        'meta_key'         => 'event_date',
+        'orderby'          => 'meta_value_num',
+        'order'            => 'ASC',
+        'meta_query' => array(
+            array(
+                'key'      => 'event_date',
+                'compare'  => '>=',
+                'value'    =>   $today,
+                'type'     => 'numeric'
+            ),
+            array(
+                'key'      => 'related_programs',
+                'compare'  => 'LIKE',
+                'value'    =>  '"'. get_the_ID()  .'"'
+            )
+        )
 
     ));
 
@@ -146,21 +149,21 @@ while (have_posts()){
     if($eventPostType->have_posts()) { 
 
 
-    echo '<hr class="section-break">';
-    echo '<h2 class="headline headline--medium" > Upcoming ' . get_the_title() . ' Events </h2>';
-    while($eventPostType->have_posts()){
-    $eventPostType->the_post(); 
+        echo '<hr class="section-break">';
+        echo '<h2 class="headline headline--medium" > Upcoming ' . get_the_title() . ' Events </h2>';
+        while($eventPostType->have_posts()){
+            $eventPostType->the_post(); 
 
-    //     echo get_fields('event_date') . 'asddasd <br>';
-    //     echo get_field_object('event_date') . 'asddasd <br>';
-    //     echo get_sub_field('event_date') . 'asddasd<br> ';
-    //     echo get_post_field('event_date') . 'asddasd<br> ';
+            //     echo get_fields('event_date') . 'asddasd <br>';
+            //     echo get_field_object('event_date') . 'asddasd <br>';
+            //     echo get_sub_field('event_date') . 'asddasd<br> ';
+            //     echo get_post_field('event_date') . 'asddasd<br> ';
     ?>
     <div class="event-summary">
         <a class="event-summary__date t-center" href="<?php the_permalink() ?>">
             <span class=" event-summary__month"><?php 
         $eventDate = new DateTime( get_post_field('event_date')) ;
-    echo $eventDate->format('M');
+            echo $eventDate->format('M');
 
                 ?></span>
             <span class="event-summary__day"><?php echo $eventDate->format('d') ?></span>
@@ -179,8 +182,8 @@ while (have_posts()){
 
 
 </div>
-    <?php }  ?>
-    <!--Event post type Loop-->
+<?php }  ?>
+<!--Event post type Loop-->
 
 
 <?php } /*php end loop */  ?>

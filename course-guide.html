@@ -8,6 +8,7 @@
         <style>
             body {
                 background-color: #333;
+                padding: 60px;
             }
             p {
                 color: #ddd;
@@ -32,8 +33,8 @@
         <div id="accordion" >
             <h3> Course Functions | WordPress Functions </h3>
             <div>
-               
-               <pre>
+
+                <pre>
                    steps in creating Custom Post Type 
                    - create on mu-plugins folder
                    - register it to .php file
@@ -41,11 +42,13 @@
                    - copy the single- HTML file to reduce coding
                    - create condition to display on front-end
                    - addjust the filter
-                   
+
                    - create archive - for its unique content
                    - 
                </pre>
+                <h5>WordPress Functions</h5>
                 <pre>
+
                wp_reset_postdata(); always put this at the end of the loop
                while() - loop
                the_title()
@@ -82,7 +85,7 @@
                 get_post_type()  = can use in if condition - will return the current CPT
 
                 <h5> Advance Custom Fields</h5>
-                  get_post_field() - for pick date - get_field() doesnt work
+                  get_post_field() - for pick date - if get_field() doesnt work
 
                         $eventDate = new DateTime( get_post_field('event_date')) ;
                         echo $eventDate->format('M');
@@ -91,6 +94,12 @@
 
                     is_admin() - will return true if we are on the admin portion of the website.
                     !is_admin() - will return true if we are on the front-end portion of the website.
+                            </pre>
+
+                <h5> Hooks </h5>    
+                <pre>
+                                   // true to allow crop - false no crop
+                                add_image_size('nickname','wide', 'tall', TRUE or FALSE)
                             </pre>
             </div>
             <h3>Hierarchy WordPress</h3>
@@ -120,6 +129,14 @@
 
                     front-page.php - is for home page
 
+                </pre>
+            </div>
+            <h3>Plugins installed during course</h3>
+            <div>
+                <pre>
+                    Advance Custom Field - Elliot Condon
+                    Regenerate Thumbnails - By Alex Mills (Viper007Bond)
+                     
                 </pre>
             </div>
 
@@ -805,13 +822,56 @@
                 <pre>
                     wp_reset_postdata();
                 </pre>
-                
+
                 video stop at 15:40
+            </div>
+            <h3>f1040 - Featured Image (post thumbnails)</h3>
+            <div>
+                <pre>
+                    //1st arg nickname for the image size - any name
+                    // image wide - 400 - tall - 260
+                    // 3rd image - if we want to crop - FALSE
+                    // if we want the image to be exactly this wide
+                    // and exactly this tall, we need to give it TRUE
+                    add_image_size('professorLandscape', 400, 260, true);
+
+                    add_image_size('professorPortrait', 480, 650, true);
+    
+
+                   
+                    go to functions -  add_theme_support('post-thumbnails');  
+                </pre>
+                <pre>
+                    go to mu-plugins folder - add in the supports array
+                       register_post_type('professor', array(
+            'supports' => array('title', 'editor', 'thumbnail'),
+            'public' => true,
+            'labels' => array(
+            'name' => 'Professor',
+            'add_new_item' => 'Add New Professor',
+            'edit_item' => 'Edit Professor',
+            'all_items' => 'All Professor',
+            'singular_name' => 'Professor'
+        ),
+        'menu_icon' => 'dashicons-welcome-learn-more'
+    ));
+                </pre>
+            </div>
+            <h3>f1041 - Featured Image Sizes & Cropping </h3>
+            <div>
+                <pre>
+                   
+                   from video 40 - use the created nickname on the function the_post_thumbnail
+                   
+                    the_post_thumbnail('professorPortrait);
+                    
+                    but the thing is WordPress - generates and use the correct image size
+                </pre>
             </div>
         </div>
 
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut dicta facilis quis excepturi, labore eaque totam eligendi odio iure, aspernatur culpa provident magnam harum exercitationem rem impedit, quia deleniti? Dignissimos tempore, numquam ducimus esse. Itaque ut nemo deserunt, facere eligendi earum aspernatur doloremque aliquid, eos ad ea. Culpa, veniam, beatae!
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut dicta facilis quis excepturi, labore eaque totam eligendi odio iure, aspernatur culpa provident magnam harum exercitationem rem impedit, quia deleniti? Dignissimos tempore, numquam ducimus esse. Itaque ut nemo deserunt, facere eligendi earum aspernatur doloremque aliquid, eos ad ea. Culpa, veniam, beatae!
 
 
 

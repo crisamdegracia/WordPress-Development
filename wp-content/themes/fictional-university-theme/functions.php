@@ -38,6 +38,21 @@ function university_features(){
 
     //show the title on browser tag
     add_theme_support('title-tag');  
+    
+    // add post thumbnail
+    add_theme_support('post-thumbnails');  
+    
+    //1st arg nickname for the image size - any name
+    // image wide - 400 - tall - 260
+    // 3rd image - if we want to crop - FALSE
+    // if we want the image to be exactly this wide
+    // and exactly this tall, we need to give it TRUE
+    // array args - to control the cropping array('left','bottom')
+    add_image_size('professorLandscape', 400, 260, true );
+    
+    add_image_size('professorPortrait', 480, 650, true);
+    
+    
 
 
 

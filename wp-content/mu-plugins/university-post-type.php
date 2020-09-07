@@ -43,7 +43,7 @@ function university_post_types(){
     //Professor post type
     //  'rewrite' => array('slug' => 'professors'), - was removed
     register_post_type('professor', array(
-        'supports' => array('title', 'editor'),
+        'supports' => array('title', 'editor', 'thumbnail'),
         'public' => true,
         'labels' => array(
             'name' => 'Professor',

@@ -36,7 +36,7 @@ while (have_posts()){
     <?php
 
         $relatedPrograms = get_field('related_programs');
-
+    
     if( $relatedPrograms ) {
 
         echo '<hr class="section-break">';
@@ -44,7 +44,7 @@ while (have_posts()){
         echo '<ul class="link-list min-list">';
         foreach($relatedPrograms as $program ){    ?>
 
-    <li> <a href="<?php echo get_the_permalink($program) ?>"> <?php echo get_the_title(); ?></a></li>
+    <li> <a href="<?php echo get_the_permalink($program) ?>"> <?php echo get_the_title($program); ?></a></li>
 
     <?php   echo '</ul>';
                                               }

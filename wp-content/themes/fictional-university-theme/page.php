@@ -1,18 +1,11 @@
 <?php 
 
 get_header();
+while (have_posts()){
+    the_post();
+    
+    pageBanner( array() );
 ?>
-
-
-<div class="page-banner">
-    <div class="page-banner__bg-image" style="background-image: <?php bloginfo('template_directory') ?>/images/ocean.jpg"></div>
-    <div class="page-banner__content container container--narrow">
-        <h1 class="page-banner__title"><?php the_title() ?> </h1>
-        <div class="page-banner__intro">
-            <p>Dont ForGET TO CHANGE ME LATER</p>
-        </div>
-    </div>  
-</div>
 
 <div class="container container--narrow page-section">
 
@@ -20,9 +13,9 @@ get_header();
     /* Get the ID of the parent page if meron. */
     $parentPageID  = wp_get_post_parent_id( get_the_ID() );
 
-         // if nasa child page tayo we will check here kung merong parent page 
-         // tapos yan ung magiging output
-         if (  $parentPageID  ) { ?>
+    // if nasa child page tayo we will check here kung merong parent page 
+    // tapos yan ung magiging output
+    if (  $parentPageID  ) { ?>
 
     <div class="metabox metabox--position-up metabox--with-home-link">
         <p><a class="metabox__blog-home-link" href="<?php echo get_the_permalink( $parentPageID) ?>"><i class="fa fa-home" aria-hidden="true"></i> Back to <?php echo get_the_title( $parentPageID ) ?></a> <span class="metabox__main"><?php the_title() ?></span></p>
@@ -31,7 +24,7 @@ get_header();
 
 
     <?php
-                                }
+                           }
     ?>
 
 
@@ -43,7 +36,7 @@ get_header();
     $testArray = get_pages(array(
         'child_of'  => get_the_ID()
     ));
-    
+
     //1st condition we test that 
     //if parentPageID has an ID
     //2nd condition is to check the child page
@@ -84,13 +77,7 @@ get_header();
 </div>
 
 
-<?php
-while (have_posts()){
-    the_post();
-?>
-<?php the_title() ?>
 
-<?php the_content() ?> 
 <?php 
 }
 ?>

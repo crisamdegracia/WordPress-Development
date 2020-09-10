@@ -83,18 +83,23 @@
                 get_post_type_archive_link('event') - give the correct CPT link
 
                 get_post_type()  = can use in if condition - will return the current CPT
-
+        </pre>
                 <h5> Advance Custom Fields</h5>
-                  get_post_field() - for pick date - if get_field() doesnt work
+                <pre>
 
-                        $eventDate = new DateTime( get_post_field('event_date')) ;
-                        echo $eventDate->format('M');
+                    get_post_field() - for pick date - if get_field() doesnt work
 
-                           is_page('past-events') - kung nasa page tayo ng post type
+                    $eventDate = new DateTime( get_post_field('event_date')) ;
+                    echo $eventDate->format('M');
+
+                    is_page('past-events') - kung nasa page tayo ng post type
 
                     is_admin() - will return true if we are on the admin portion of the website.
                     !is_admin() - will return true if we are on the front-end portion of the website.
-                            </pre>
+
+
+                   $pageBannerImage = get_field('page_banner_background_image'); echo $pageBannerImage['url']
+                </pre>
 
                 <h5> Hooks </h5>    
                 <pre>
@@ -136,7 +141,7 @@
                 <pre>
                     Advance Custom Field - Elliot Condon
                     Regenerate Thumbnails - By Alex Mills (Viper007Bond)
-                     
+
                 </pre>
             </div>
 
@@ -836,9 +841,9 @@
                     add_image_size('professorLandscape', 400, 260, true);
 
                     add_image_size('professorPortrait', 480, 650, true);
-    
 
-                   
+
+
                     go to functions -  add_theme_support('post-thumbnails');  
                 </pre>
                 <pre>
@@ -860,14 +865,50 @@
             <h3>f1041 - Featured Image Sizes & Cropping </h3>
             <div>
                 <pre>
-                   
+
                    from video 40 - use the created nickname on the function the_post_thumbnail
-                   
+
                     the_post_thumbnail('professorPortrait);
-                    
+
                     but the thing is WordPress - generates and use the correct image size
                 </pre>
             </div>
+
+            <h3>f10v42 - Page banner dynamic background image </h3>
+            <div>
+                <pre>
+                   <h5> to get the image link do this </h5> 
+                    $pageBannerImage = get_field('page_banner_background_image'); echo $pageBannerImage['url']
+                </pre>
+            </div>
+
+            <h3>f11v43 - Reduce Duplicate Code | REUSABLE CODE ETO MAGANDA!! </h3>
+            <div>
+                <pre>
+                    //php logic will live here
+                    // !args['title] - if the title is not passed into it - and if thats the case,
+                    //then let's just set the title field for that post or page
+                    function pageBanner($args = NULL ){
+
+                        if( !$args['title'] ){
+                            $args['title'] = get_the_title();
+                        }     
+                        if( !$args['sub-title'] ){
+                            $args['sub-title'] = get_field('page_banner_subtitle');
+                        } 
+                        if ( !$args['photo']){
+                            if(get_field('page_banner_background_image')){
+                            $args['photo']     =  get_field('page_banner_background_image')['sizes']['pageBanner'];
+                            } else {
+                            $args['photo']     =  get_theme_file_uri('/images/ocean.jpg');
+
+                                }
+                        }
+
+
+                </pre>
+            </div>
+
         </div>
 
 

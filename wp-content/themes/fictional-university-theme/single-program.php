@@ -5,17 +5,10 @@ get_header();
 
 while (have_posts()){
     the_post();
+    pageBanner();
 ?>
 
-<div class="page-banner">
-    <div class="page-banner__bg-image" style="background-image: <?php bloginfo('template_directory') ?>/images/ocean.jpg"></div>
-    <div class="page-banner__content container container--narrow">
-        <h1 class="page-banner__title"><?php the_title() ?> </h1>
-        <div class="page-banner__intro">
-            <p>Dont ForGET TO CHANGE ME LATER</p>
-        </div>
-    </div>  
-</div>
+
 
 <div class="container container--narrow page-section">
 
@@ -72,15 +65,15 @@ while (have_posts()){
         echo '<hr class="section-break">';
         echo '<h2 class="headline headline--medium" >' . get_the_title() . ' Professor </h2>';
 
-echo '<ul class="professor-cards">';
+        echo '<ul class="professor-cards">';
         while( $relatedProfessor->have_posts()){
             $relatedProfessor->the_post(); 
 
     ?>
     <li class="professor-card__list-item">
         <a class="professor-card" href="<?php the_permalink() ?>">
-        <img src="<?php the_post_thumbnail_url('professorLandscape'); ?>" alt="" class="professor-card__image">
-        <span class="professor-card__name"><?php the_title(); ?></span>
+            <img src="<?php the_post_thumbnail_url('professorLandscape'); ?>" alt="" class="professor-card__image">
+            <span class="professor-card__name"><?php the_title(); ?></span>
         </a>
     </li>
 
@@ -88,7 +81,7 @@ echo '<ul class="professor-cards">';
 
 
     <?php }
-    echo '</ul>' 
+        echo '</ul>' 
     ?>
     <!--related Professor-->
 
@@ -151,33 +144,14 @@ echo '<ul class="professor-cards">';
 
         echo '<hr class="section-break">';
         echo '<h2 class="headline headline--medium" > Upcoming ' . get_the_title() . ' Events </h2>';
+        
+        
         while($eventPostType->have_posts()){
             $eventPostType->the_post(); 
 
-            //     echo get_fields('event_date') . 'asddasd <br>';
-            //     echo get_field_object('event_date') . 'asddasd <br>';
-            //     echo get_sub_field('event_date') . 'asddasd<br> ';
-            //     echo get_post_field('event_date') . 'asddasd<br> ';
-    ?>
-    <div class="event-summary">
-        <a class="event-summary__date t-center" href="<?php the_permalink() ?>">
-            <span class=" event-summary__month"><?php 
-        $eventDate = new DateTime( get_post_field('event_date')) ;
-            echo $eventDate->format('M');
 
-                ?></span>
-            <span class="event-summary__day"><?php echo $eventDate->format('d') ?></span>
-        </a>
-        <div class="event-summary__content">
-            <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink() ?>"><?php the_title() ?></a></h5>
-            <p><?php if( has_excerpt() ) {
-                    echo get_the_excerpt();          
-                } else {
-                    echo wp_trim_words(get_the_content(), 18 );
-                } ?> <a href="<?php the_permalink() ?>" class="nu gray">Learn more</a></p>
-        </div>
-    </div>
-    <?php } ?>
+            get_template_part('template-parts/content', 'event');
+        } ?>
 
 
 

@@ -1,18 +1,11 @@
 <?php 
 get_header();
-?>
-<div class="page-banner">
-    <div class="page-banner__bg-image" style="background-image: <?php bloginfo('template_directory') ?>/images/ocean.jpg"></div>
-    <div class="page-banner__content container container--narrow">
-        <h1 class="page-banner__title">
-            All Programs
-        </h1>
-        <div class="page-banner__intro">
-            <p>There is something for everyone. have a look around.</p>
-        </div>
-    </div>  
-</div>
+pageBanner(array(
+    'title' => 'All Programs',
+    'sub-title' => 'There is something for everyone. Have a look around asdasd'
 
+))
+?>
 
 
 

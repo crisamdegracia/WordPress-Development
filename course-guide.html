@@ -888,6 +888,11 @@
                     //php logic will live here
                     // !args['title] - if the title is not passed into it - and if thats the case,
                     //then let's just set the title field for that post or page
+                    // kung ung $args e wala dun sa fron-end for example sa single.php
+                    // kung wala edi dito sa function nato kukunin ung value
+                    
+                    
+                    
                     function pageBanner($args = NULL ){
 
                         if( !$args['title'] ){
@@ -906,6 +911,37 @@
                         }
 
 
+                </pre>
+                <h5>ganto exaple nang merong laman dun sa single.php  or to any pages na nakalagay ung function</h5>
+                <pre>
+                    pageBanner(array(
+                    'title' => 'Past Events',
+                    'sub-title'  => 'A recap of our past events.'
+
+                ))
+                </pre>
+            </div>
+            
+            <h3>f11v45 - Reduce Duplication - get_template_part() </h3>
+            
+            <div>
+               <h5>
+                   function in function.php or get_template_part()?
+                   
+               </h5>
+               <pre>
+                   choose function if - we have argument to pass
+                   choose get_template_part() - if the code is just HTML and has no argument
+               </pre>
+                <pre>
+                    
+                    //1st arg - the location of the file -
+                    //2nd it can be post_type function - basta 
+                    get_template_part('template-parts/content', 'event');
+                    
+                    //kung walang pag gagamitan nung 2nd argument
+                    // pwedeng wag na lagyan
+                    get_template_part('template-parts/content-event');
                 </pre>
             </div>
 

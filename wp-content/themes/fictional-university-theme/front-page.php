@@ -5,7 +5,7 @@ get_header();
 ?>
 
 <div class="page-banner">
-    <div class="page-banner__bg-image" style="background-image: url(<?php bloginfo()  ?>images/library-hero.jpg);"></div>
+    <div class="page-banner__bg-image" style="background-image: url(<?php bloginfo('template_directory') ?>/images/library-hero.jpg);"></div>
     <div class="page-banner__content container t-center c-white">
         <h1 class="headline headline--large">Welcome! GAMERS woop!!asd  </h1>
         <h2 class="headline headline--medium">We think you&rsquo;ll like it here.</h2>

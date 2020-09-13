@@ -43,6 +43,10 @@ function pageBanner($args = NULL ){
 
 
 function university_files(){
+    
+        // we start [//] for 2nd args so the web will not throw error
+    wp_enqueue_script('googleMap', '//maps.googleapis.com/maps/api/js?key=AIzaSyD-rsOXjG5-vXQEjd-YFC4zBBEEAb8tl6w', NULL, '1.0' , true  );
+    
     //1st argument - chosen name for function
     //2nd argument - url
     //3rd argument - WordPress wants to know if this script depends on in other script
@@ -60,7 +64,10 @@ function university_files(){
     //microtime - to remove caching of css and js
     //5th argument - if we want to load it before closing body tag. Yes (True) or No (False)
     // TRUE - going to the bottom of body tag
-    wp_enqueue_script('main-university-js', get_theme_file_uri('/js/scripts-bundled.js'), NULL, microtime() , TRUE  );
+    wp_enqueue_script('main-university-js', get_theme_file_uri('/js/scripts-bundled.js'), NULL, microtime() , TRUE  ); 
+    
+
+ 
 }
 
 //1st argument - what type of instructions
@@ -158,6 +165,14 @@ function university_adjust_queries($query){
 // its going to give a reference to the wordpress query object
 add_action('pre_get_posts', 'university_adjust_queries');
 
-
+function UniversityMapKey($api){
+    
+    $api['key'] = 'AIzaSyD-rsOXjG5-vXQEjd-YFC4zBBEEAb8tl6w';
+    return $api;
+    
+}
+//1st args to target the Advanced Custom Fields and let it know
+// that we have Google Maps API
+add_filter('acf/fields/google_map/api', 'UniversityMapKey');
 
 ?>

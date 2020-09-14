@@ -9,29 +9,8 @@ pageBanner(array(
 
 
 
-<div class="container container--narrow page-section">
-    <div class="acf-map">
-
-
-        <?php
-
-
-    while( have_posts()  ){
-        the_post(); 
-        $mapLocation = get_field('map_location');
-        ?>
-
-        <div class="marker" data-lat='<?php echo $mapLocation['lat'] ?>' data-lng='<?php echo $mapLocation['lng'] ?>' >
-        </div>
-
-        <?php } //while end ?>
-    </div>
-
-
-
-    <?php echo paginate_links() ?>
-
-
+<div class="container container--narrow page-section">  
+    <?php    get_template_part('template-parts/content-campus'); ?>
 </div>    
 
 
@@ -45,5 +24,5 @@ pageBanner(array(
 
 
 <?php 
-    get_footer();
+get_footer();
 ?>

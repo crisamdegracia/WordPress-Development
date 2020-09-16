@@ -1,4 +1,4 @@
-sadasd<?php 
+<?php 
 
 
 get_header();
@@ -54,12 +54,12 @@ while (have_posts()){
 
     $relatedPrograms = new WP_Query(array(
         'posts_per_page'   => -1,
-        'post_type'        => 'program ',
+        'post_type'        => 'program',
         'orderby'          => 'title',
         'order'            => 'ASC',
         'meta_query' => array(
             array(
-                'key'      => 'related_campus',
+                'key'      => 'related_campuses',
                 'compare'  => 'LIKE',
                 'value'    =>  '"'. get_the_ID() .'"'
             )
@@ -71,27 +71,21 @@ while (have_posts()){
     /* para hindi mag appear ung UPCOMING EVENTS na title tag
     tapos sa loob nun ung content na relation nun sa event?? gets moba ? ano kaya pa?
     */
-
-    if( $relatedPrograms->have_posts()) { 
-
+    if(  $relatedPrograms->have_posts() ) { 
 
         echo '<hr class="section-break">';
         echo '<h2 class="headline headline--medium" > Programs Available At This Campus </h2>';
 
-        echo '<ul class="professor-cards">';
-        while( $relatedPrograms->have_posts()){
+        echo '<ul class="min-list link-list">';
+        while( $relatedPrograms->have_posts() ){
             $relatedPrograms->the_post(); 
 
     ?>
-    <li class="professor-card__list-item">
-        <a class="professor-card" href="<?php the_permalink() ?>">
-            <img src="<?php the_post_thumbnail_url('professorLandscape'); ?>" alt="" class="professor-card__image">
-            <span class="professor-card__name"><?php the_title(); ?></span>
+    <li class="">
+        <a class="" href="<?php the_permalink() ?>">
+          <?php the_title(); ?>
         </a>
     </li>
-
-
-
 
     <?php }
         echo '</ul>' 

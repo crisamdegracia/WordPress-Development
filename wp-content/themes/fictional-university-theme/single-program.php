@@ -160,7 +160,29 @@ while (have_posts()){
 <!--Event post type Loop-->
 
 
-<?php } /*php end loop */  ?>
+<?php } /*php end loop */ 
+wp_reset_postdata();
+
+$relatedCampus = new WP_Query(array(
+    'post_type'     => 'program',
+    'post_per_page' => -1,
+    'order'         => 'title',
+    'orderby'       => 'ASC',
+    'meta_query'    => array(
+    array(
+            'key'       =>  'related_campuses', 
+            'compare'   =>   'LIKE',
+            'value'     =>   '."get_the_ID".',
+    )
+    
+    )
+));
+
+while($relatedCampus->have_post()){
+    the_post();
+    the_title();
+}
+?>
 
 
 

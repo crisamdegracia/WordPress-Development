@@ -163,6 +163,40 @@
 
             </div>
 
+            <h3>To note when creating relationship on post_type</h3>
+            <div>
+
+                <pre>
+                <h5>
+                    remember that WordPress only Query 10 posts at a time
+                </h5>
+            </pre>
+                <pre>
+                if the Advance Custom Field variable that we create is already under the
+                post_type -- there is no need to create a filter -- becoz we can just call it there.
+                gets moba ? 
+            </pre>
+                <h5> To loop inside foreach</h5>
+                <pre>
+                 $relatedCampus = get_field('related_campuses');
+
+            if($relatedCampus){
+                echo '[h2 class="headline headline--medium" >' . get_the_title() . ' is Available at these Campuses: [/h2]';
+
+                foreach($relatedCampus as $campus ){  ?>
+                li
+                    a href="[?php echo get_the_permalink($campus)?]" [?php echo get_the_title($campus) ?]
+                    /a
+                /li
+            [?php
+                }
+            }
+            </pre>
+            </div>
+
+
+
+
             <h3>f410 -  WordPress Loops</h3>
             <div>
                 <h5>Functions</h5>
@@ -428,6 +462,7 @@
 
             <h3>f726 -   </h3>
             <div></div>
+
             <h3>f7v27 and 28 - GULP WATCH Auto loading fronpage CSS and JS</h3>
             <div></div>
 
@@ -1071,21 +1106,55 @@
                 Continue 12:59
             </div>
 
+            <h3>f13v50 - Start of Javascript </h3>
+            <div>
+            <pre>
+               constructor() - yan agad ung unang gagana ung sa loob
+               export default Search;  - this line of code will allow us to import this file into our main script file
+                class Search {
+    
+                        constructor(){
+
+                        }
+                    }
+                    
+                    export default Search;
+            </pre>
+            
+            <pre>
+               on folder js/scripts.js
+               -once we import it we can call it many time we want -
+               - we can create multiple 
+                var liveSearchv2  = new Search()
+               - thats called Class
+               
+               
+               
+                import Search     from "./modules/Search"
+                
+                
+                
+                var liveSearch  = new Search()
+            </pre>
+            <img src="./Images/JSClass.jpg" alt="">
+            
+            </div>
 
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut dicta facilis quis excepturi, labore eaque totam eligendi odio iure, aspernatur culpa provident magnam harum exercitationem rem impedit, quia deleniti? Dignissimos tempore, numquam ducimus esse. Itaque ut nemo deserunt, facere eligendi earum aspernatur doloremque aliquid, eos ad ea. Culpa, veniam, beatae!
 
 
 
-            <script src="../jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-            <script>
-                $( function() {
-                    $( "#accordion" ).accordion({
-                        collapsible: true,
-                        heightStyle: "content"
+        </div>
+        <script src="../jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+        <script>
+            $( function() {
+                $( "#accordion" ).accordion({
+                    collapsible: true,
+                    heightStyle: "content"
 
-                    });
+                });
 
-                } );
-            </script>
-            </body>
-        </html>
+            } );
+        </script>
+    </body>
+</html>

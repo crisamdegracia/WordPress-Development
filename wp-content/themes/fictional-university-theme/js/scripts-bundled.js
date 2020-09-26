@@ -122,6 +122,18 @@ eval("__webpack_require__.r(__webpack_exports__);\nfunction _classCallCheck(inst
 
 /***/ }),
 
+/***/ "./public/wp-content/themes/fictional-university-theme/js/modules/Search.js":
+/*!**********************************************************************************!*\
+  !*** ./public/wp-content/themes/fictional-university-theme/js/modules/Search.js ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nvar Search = function Search() {\n  _classCallCheck(this, Search);\n\n  alert('hello bos anime tayo!!');\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Search);\n\n//# sourceURL=webpack:///./public/wp-content/themes/fictional-university-theme/js/modules/Search.js?");
+
+/***/ }),
+
 /***/ "./public/wp-content/themes/fictional-university-theme/js/scripts.js":
 /*!***************************************************************************!*\
   !*** ./public/wp-content/themes/fictional-university-theme/js/scripts.js ***!
@@ -130,7 +142,7 @@ eval("__webpack_require__.r(__webpack_exports__);\nfunction _classCallCheck(inst
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/MobileMenu */ \"./public/wp-content/themes/fictional-university-theme/js/modules/MobileMenu.js\");\n/* harmony import */ var _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/HeroSlider */ \"./public/wp-content/themes/fictional-university-theme/js/modules/HeroSlider.js\");\n/* harmony import */ var _modules_GoogleMap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/GoogleMap */ \"./public/wp-content/themes/fictional-university-theme/js/modules/GoogleMap.js\");\n//import \"../css/style.css\";\n// Our modules / classes\n\n\n // Instantiate a new object using our modules/classes\n\nvar mobileMenu = new _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_0__[\"default\"]();\nvar heroSlider = new _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_1__[\"default\"]();\nvar googleMap = new _modules_GoogleMap__WEBPACK_IMPORTED_MODULE_2__[\"default\"](); // Allow new JS and CSS to load in browser without a traditional page refresh\n\nif (false) {}\n\n//# sourceURL=webpack:///./public/wp-content/themes/fictional-university-theme/js/scripts.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/MobileMenu */ \"./public/wp-content/themes/fictional-university-theme/js/modules/MobileMenu.js\");\n/* harmony import */ var _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/HeroSlider */ \"./public/wp-content/themes/fictional-university-theme/js/modules/HeroSlider.js\");\n/* harmony import */ var _modules_GoogleMap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/GoogleMap */ \"./public/wp-content/themes/fictional-university-theme/js/modules/GoogleMap.js\");\n/* harmony import */ var _modules_Search__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/Search */ \"./public/wp-content/themes/fictional-university-theme/js/modules/Search.js\");\n//import \"../css/style.css\";\n// Our modules / classes\n\n\n\n // Instantiate a new object using our modules/classes\n\nvar mobileMenu = new _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_0__[\"default\"]();\nvar heroSlider = new _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_1__[\"default\"]();\nvar googleMap = new _modules_GoogleMap__WEBPACK_IMPORTED_MODULE_2__[\"default\"]();\nvar liveSearch = new _modules_Search__WEBPACK_IMPORTED_MODULE_3__[\"default\"](); // Allow new JS and CSS to load in browser without a traditional page refresh\n\nif (false) {}\n\n//# sourceURL=webpack:///./public/wp-content/themes/fictional-university-theme/js/scripts.js?");
 
 /***/ }),
 

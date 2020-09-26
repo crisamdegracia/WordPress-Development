@@ -115,6 +115,16 @@ add_action('after_setup_theme', 'university_features');
 
 
 function university_adjust_queries($query){
+    
+        //on this campus archive page 
+        // we only want to display the title on the map 
+        // that is why theere is only  posts_per_page here
+     if( !is_admin() AND is_post_type_archive('campus') AND $query->is_main_query() ) {
+        $query->set('posts_per_page', -1); 
+    }
+    
+    
+    
     // set has 2 args
     //1st args is the name of a query parameter that we want to change
     // the value that we want to use
@@ -148,14 +158,17 @@ function university_adjust_queries($query){
     }
 
     //the 3rd condition - if only the $query in question can look inside its main 
-    //query -- so that way we dont manipulate any secondary custom quries,
+    //query -- so that way we dont manipulate any secondary custom queries,
     // we only want to manipulate the main default URL based query
     // this is the safest condition check
     if( !is_admin() AND is_post_type_archive('program') AND $query->is_main_query() ) {
         $query->set('orderby','title');
         $query->set('order','ASC'); 
-        $query->set('post_per_page', 5); 
+        $query->set('posts_per_page', 5); 
     }
+
+    
+
 
 
 }

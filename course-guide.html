@@ -786,6 +786,55 @@
                          ));
 
                 </pre>
+                <h5> 
+                    Flashback - its from folder 12 video 48 
+                    a broader explain
+                </h5>
+                <pre>
+                               //post_per_page - kung ilan lilitaw dun sa fron-end
+            // 'posts_per_page' => -1, -1 meaning the WP will give all the 
+            //post_type - kung anong post type
+            // orderby - post_date - the date that the post was created or published
+            // ^       - value [post_date] is the default value
+            //^ value [title] - will be alphabetically
+            //^ orderby->rand - post will be random
+            //^ orderby->meta_value_num - it need the meta_key 1st - then the value means that the orderby will be base on any value of Post Type.
+            // meta_key-event_date - the ACF variabe posts
+            // order -> DESC - post will be descending 
+            // order -> ASC - post will be Ascending 
+
+            // meta_query is parang filter 
+            // so its looking for a KEY - which is the POST TYPE
+            // meta_query - array-> 
+            //  ^key - the ACF
+            //  ^compare - the condition
+            //  ^value  - here is date $today
+
+            // to sum up on meta_query = 
+            // ^ the post type program is looking for a 
+            // meta_query that has a KEY 'related_campus'
+            // that LIKE - means exactly
+            // thas has a VALUE of the current campus that we are viewing
+            // 
+
+            // we are creating this new query to give us any program post
+            //  that has relation on related_campuse post type
+            $relatedPrograms = new WP_Query(array(
+                'posts_per_page'   => -1,
+                'post_type'        => 'program',
+                'orderby'          => 'title',
+                'order'            => 'ASC',
+                'meta_query' => array(
+                    array(
+                        'key'      => 'related_campuses',
+                        'compare'  => 'LIKE',
+                        'value'    =>  '"'. get_the_ID() .'"'
+                    )
+                )
+
+            ));
+
+                </pre>
             </div>
 
             <h3> f9v38 - Quick Edits </h3>
@@ -968,19 +1017,19 @@
             </div>
             <h3>f12v47 - Campus Map on Front-end </h3>
             <div>
-            <h5>
-                Nahirapan ako dito !!!
-            </h5>
-               <pre>
+                <h5>
+                    Nahirapan ako dito !!!
+                </h5>
+                <pre>
                    make sure na ung nasa university-static file na webpack.config.js and package.json
                    is kinopy and paste mo - tapos - npm install ka sa terminal para maupdate ung modules.
-                   
+
                    ilagay mo sa taas ung MAP KEY sa functions.php - i mean sa unahan -
                    npm run gulpscripts - para macompile ung JS tapos npm run gulpstyles naman para makompile
                    ung CSS - 
-                   
+
                    kopyahin mo ung pinaka link key dun sa Javascript maps. tapos idedit mo nalang ung key.
-                   
+
                    tangaling mo ung [import "../css/style.css"] dun sa script.js
                </pre>
                 <h5> put this on function.php</h5>
@@ -989,8 +1038,8 @@
                 wp_enqueue_script('googleMap', '//maps.googleapis.com/map/api/js?key=AIzaSyD-rsOXjG5-vXQEjd-YFC4zBBEEAb8tl6w', NULL, '1.3' , TRUE  );
                 </pre>
 
-               <h5>Put this on archive-campus.php</h5>
-               
+                <h5>Put this on archive-campus.php</h5>
+
                 <pre>
                     div class="acf-map"
                      while( have_posts()  ){
@@ -1003,22 +1052,23 @@
                     div
                 </pre>
             </div>
-            
+
             <h3>f12v48 - Campus Post Type | ACF relationship </h3>
             <div>
                 <pre>
                     When we create relationship, make sure to check the filter by post type -- to limit the access to only the post type we want to choose.
                 </pre>
+                <img src="./Images/AcfPostTypeFilter.jpg" alt="">
                 <pre>
                     if we want only campus to campus relation
                     just choose filter by post type = campus
-            
-                   
-                   then, choose the location for your ACF to show. for example on  programs.
+
+
+                   then, choose on the [Location Block]-> eto ung  for your ACF to show. for example on  programs. pinili nya dito programs
                     </pre>
-                    
-                    
-                    Continue 12:59
+
+                <img src="./Images/AcfSS.jpg" alt="">
+                Continue 12:59
             </div>
 
 
@@ -1030,7 +1080,8 @@
             <script>
                 $( function() {
                     $( "#accordion" ).accordion({
-                        collapsible: 1
+                        collapsible: true,
+                        heightStyle: "content"
 
                     });
 

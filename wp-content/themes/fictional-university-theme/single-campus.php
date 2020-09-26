@@ -36,22 +36,33 @@ while (have_posts()){
 
     <?php
     //post_per_page - kung ilan lilitaw dun sa fron-end
+    // 'posts_per_page' => -1, -1 meaning the WP will give all the 
     //post_type - kung anong post type
     // orderby - post_date - the date that the post was created or published
     // ^       - value [post_date] is the default value
     //^ value [title] - will be alphabetically
     //^ orderby->rand - post will be random
     //^ orderby->meta_value_num - it need the meta_key 1st - then the value means that the orderby will be base on any value of Post Type.
-    // meta_key-event_date - the ACF variabe
-    // 'posts_per_page' => -1, -1 meaning the WP will give all the posts
+    // meta_key-event_date - the ACF variabe posts
     // order -> DESC - post will be descending 
     // order -> ASC - post will be Ascending 
-
+    
+    // meta_query is parang filter 
+    // so its looking for a KEY - which is the POST TYPE
     // meta_query - array-> 
     //  ^key - the ACF
     //  ^compare - the condition
     //  ^value  - here is date $today
+    
+    // to sum up on meta_query = 
+    // ^ the post type program is looking for a 
+    // meta_query that has a KEY 'related_campus'
+    // that LIKE - means exactly
+    // thas has a VALUE of the current campus that we are viewing
+    // 
 
+    // we are creating this new query to give us any program post
+    //  that has relation on related_campuse post type
     $relatedPrograms = new WP_Query(array(
         'posts_per_page'   => -1,
         'post_type'        => 'program',

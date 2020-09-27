@@ -4,7 +4,7 @@
 // !args['title] - if the title is not passed into it - and if thats the case,
 //then let's just set the title field for that post or page
 function pageBanner($args = NULL ){
-        
+
     if( !$args['title'] ){
         $args['title'] = get_the_title();
     }     
@@ -13,14 +13,14 @@ function pageBanner($args = NULL ){
     } 
     if ( !$args['photo']){
         if(get_field('page_banner_background_image')){
-        $args['photo']     =  get_field('page_banner_background_image')['sizes']['pageBanner'];
+            $args['photo']     =  get_field('page_banner_background_image')['sizes']['pageBanner'];
         } else {
-        $args['photo']     =  get_theme_file_uri('/images/ocean.jpg');
-            
+            $args['photo']     =  get_theme_file_uri('/images/ocean.jpg');
+
         }
     }
-    
-  
+
+
 ?>
 
 <div class="page-banner">
@@ -37,16 +37,16 @@ function pageBanner($args = NULL ){
 
 
 <?php 
-// var_dump($pageBannerImage );
+        // var_dump($pageBannerImage );
 }
 
 
 
 function university_files(){
-    
-        // we start [//] for 2nd args so the web will not throw error
+
+    // we start [//] for 2nd args so the web will not throw error
     wp_enqueue_script('googleMap', '//maps.googleapis.com/maps/api/js?key=AIzaSyD-rsOXjG5-vXQEjd-YFC4zBBEEAb8tl6w', NULL, '1.0' , true  );
-    
+
     //1st argument - chosen name for function
     //2nd argument - url
     //3rd argument - WordPress wants to know if this script depends on in other script
@@ -64,10 +64,12 @@ function university_files(){
     //microtime - to remove caching of css and js
     //5th argument - if we want to load it before closing body tag. Yes (True) or No (False)
     // TRUE - going to the bottom of body tag
-    wp_enqueue_script('main-university-js', get_theme_file_uri('/js/scripts-bundled.js'), NULL, microtime() , TRUE  ); 
-    
+    wp_enqueue_script('main-university-js', get_theme_file_uri('/js/scripts-bundled.js'), NULL, microtime() , TRUE  );
 
- 
+
+
+
+
 }
 
 //1st argument - what type of instructions
@@ -115,16 +117,16 @@ add_action('after_setup_theme', 'university_features');
 
 
 function university_adjust_queries($query){
-    
-        //on this campus archive page 
-        // we only want to display the title on the map 
-        // that is why theere is only  posts_per_page here
-     if( !is_admin() AND is_post_type_archive('campus') AND $query->is_main_query() ) {
+
+    //on this campus archive page 
+    // we only want to display the title on the map 
+    // that is why theere is only  posts_per_page here
+    if( !is_admin() AND is_post_type_archive('campus') AND $query->is_main_query() ) {
         $query->set('posts_per_page', -1); 
     }
-    
-    
-    
+
+
+
     // set has 2 args
     //1st args is the name of a query parameter that we want to change
     // the value that we want to use
@@ -167,7 +169,7 @@ function university_adjust_queries($query){
         $query->set('posts_per_page', 5); 
     }
 
-    
+
 
 
 
@@ -178,10 +180,10 @@ function university_adjust_queries($query){
 add_action('pre_get_posts', 'university_adjust_queries');
 
 function UniversityMapKey($api){
-    
+
     $api['key'] = 'AIzaSyD-rsOXjG5-vXQEjd-YFC4zBBEEAb8tl6w';
     return $api;
-    
+
 }
 //1st args to target the Advanced Custom Fields and let it know
 // that we have Google Maps API

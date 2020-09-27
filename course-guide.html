@@ -1108,36 +1108,44 @@
 
             <h3>f13v50 - Start of Javascript </h3>
             <div>
-            <pre>
+                <pre>
                constructor() - yan agad ung unang gagana ung sa loob
                export default Search;  - this line of code will allow us to import this file into our main script file
                 class Search {
-    
+
                         constructor(){
 
                         }
                     }
-                    
+
                     export default Search;
             </pre>
-            
-            <pre>
+
+                <pre>
                on folder js/scripts.js
                -once we import it we can call it many time we want -
                - we can create multiple 
                 var liveSearchv2  = new Search()
                - thats called Class
-               
-               
-               
+
+
+
                 import Search     from "./modules/Search"
-                
-                
-                
+
+
+
                 var liveSearch  = new Search()
             </pre>
-            <img src="./Images/JSClass.jpg" alt="">
-            
+                <img src="./Images/JSClass.jpg" alt="">
+
+            </div>
+            <h3>f13v51 - Open and close search overlay </h3>
+
+            <div>
+               <h5> how to attach existing jQuery from Wordpress to our main JS </h5>
+                <pre>
+                     wp_enqueue_script('main-university-js', get_theme_file_uri('/js/scripts-bundled.js'), array('jquery'), microtime() , TRUE  ); 
+                </pre>
             </div>
 
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut dicta facilis quis excepturi, labore eaque totam eligendi odio iure, aspernatur culpa provident magnam harum exercitationem rem impedit, quia deleniti? Dignissimos tempore, numquam ducimus esse. Itaque ut nemo deserunt, facere eligendi earum aspernatur doloremque aliquid, eos ad ea. Culpa, veniam, beatae!

@@ -1150,13 +1150,56 @@
 
             <h3> f13v52 - Javascrip Live Search Time  delay</h3>
             <div>
-               
-               <h5>Much better go the Search.js file</h5>
+
+                <h5>Much better go the Search.js file</h5>
                 <pre>
+                iniskip kona ung inputing dito kasi maxado komplikado men.
+
                 andun lahat ng detailed comment ko. sabog sabog na kasi pag dito pa nilagay
                 </pre>
             </div>
+            <h3> f14v55 - Load WP content with JS</h3>
+            <div>
+                <pre>
+                http://domain.com/wp-json/wp/v2/posts - 10 most recent post
+                http://domain.com/wp-json/wp/v2/page - 10 most recent post
 
+            </pre>
+                <pre>
+                function - will trigger after the URL response. ( a callback )
+                $.getJSON(url, function(),)
+            </pre>
+
+                <pre>
+
+
+                $.getJSON('http://localhost:10024/wp-json/wp/v2/posts?search=' + this.searchField.val(), function(posts){
+                    alert(posts[0].title.rendered);
+                })
+            </pre>
+                <h3> f14v56 - Generate HTML Base on JSON </h3>
+                <div>
+                    <pre>
+                      // ung 'this' daw sa this.searchField.val()
+                      // ay hindi pointin sa pinaka object
+                      // so to solved daw un we need to
+                      // $.getJSON(url,function({}.bind(this) ) )
+                      // sa bind this ka tumingin asshole
+                      or
+                      // $.getJSON(url, posts => {})
+                      // now it does not change daw the value of this keyword
+
+                       $.getJSON('http://localhost:10024/wp-json/wp/v2/posts?search=' + this.searchField.val(), function(posts){
+                    this.resultsDiv.html(posts[0].title.rendered);
+                })
+                </pre>
+                
+                ended in 19:04
+                </div>
+            </div>
+            
+            
+            
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut dicta facilis quis excepturi, labore eaque totam eligendi odio iure, aspernatur culpa provident magnam harum exercitationem rem impedit, quia deleniti? Dignissimos tempore, numquam ducimus esse. Itaque ut nemo deserunt, facere eligendi earum aspernatur doloremque aliquid, eos ad ea. Culpa, veniam, beatae!
 
 

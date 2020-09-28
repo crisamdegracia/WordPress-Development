@@ -124,14 +124,21 @@ class Search {
     // ---------------------------------------------------
 
     getResults() {
-
-        this.resultsDiv.html('What the heeell');
-
-
         // setting this para kapag run ng method sa taas ^
         // gagana parin ung spin loader.
         // this is a logic DON'T Forget!
-        this.isSpinnerVisible = false; 
+        // was hidden because this is the ealier video
+        // this.isSpinnerVisible = false; 
+
+        $.getJSON('http://localhost:10024/wp-json/wp/v2/posts?search=' + this.searchField.val(), posts => {
+            this.resultsDiv.html(`
+<h2 class="search-overlay__section-title"> General Information </h2>
+<ul class="link-list min-list">
+<li> <a href="${posts[0].link}"> ${posts[0].title.rendered} </a> </li>
+
+
+`);
+        })
     }
 
     // ---------------------------------------------------
@@ -157,7 +164,7 @@ class Search {
         //1st check - kung ung napressed is 'S'
         //2nd check - kung naset ba ni openOverlay() and closeOverlay()
         // kung false or true
-        
+
         // 3rd args - we will make sure that in input field and textarea field
         // the hasnt not click or focus the field 
         if(e.keyCode == 83 &&  !this.isOverlayOpen && !$("input, textarea").is(':focus')){

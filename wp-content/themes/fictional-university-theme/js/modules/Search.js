@@ -127,111 +127,212 @@ class Search {
     // ---------------------------------------------------
 
     getResults() {
-        // universityData.root_url - we can see its value inside functions.php
-        // ^ this is very powerful!
-        // setting this para kapag run ng method sa taas ^
-        // gagana parin ung spin loader.
-        // this is a logic DON'T Forget!
-        // was hidden because this is the ealier video
-        // this.isSpinnerVisible = false; 
 
 
-        //map() can have access to the array and create new version
-        // inside map() is a function that will run in each item
-        // but its output will have commas(',')
-        // so we use join()
-        // join() is JS on how we can convert an array to a simple string
-        // inside join is a character betwenn the item join( x - >  ,)
-        // we can also put join('')  so the output is just blank
 
 
-        //ternary operator - that can work inside template literal
-        // a ternary operator is short way of creating conditional logic
-        // ternary - 1st args condition a tru or false
-        // ternary - 2nd arg function you want to run
-        // ternary - 3rd a function when the condition is false
-        // $posts.length - will check if the search field has value 
-        // as soon all the code run -- isSpinnerVisible = false
-        // posts.concat() - to combine multiple array
-        $.getJSON(universityData.root_url + '/wp-json/wp/v2/posts?search=' + this.searchField.val(), posts => {
+        /*
+        Asynchronous
+        
+         1. $.when() - we can put as many JSON request as we want
+         and it will run Asynchronously it will wait to complete
+         before calling the then()
+         then() - a call back
+         $.when(a,b,c) then(a,b,c) = sa when ung first argument e mangyayare sa 1st function
+         ng $.then(), so sa 2nd ng $.when() sa 2nd din ng $.then(), and so on.
+        2. normally ang argument daw ng  $.getJSON(url, function)
+         how ever in this $.when().$.then() 
+         since we got the $.when() method that is baby sitting these request and 
+         its going automatically pass on their results as parameter
+         into our $.then() method. and since thats the case we dont need to provide a 
+         callback function on $.getJSON() method
+         3. $.then() method can have a 2nd argument to detect an error
+        */
+        
+        $.when(
             
-            $.getJSON(universityData.root_url + '/wp-json/wp/v2/pages?search=' + this.searchField.val(), pages => {
-                
-                var combinedResults = posts.concat(pages);
-                
-                this.resultsDiv.html(`
+        $.getJSON(universityData.root_url + '/wp-json/wp/v2/posts?search=' + this.searchField.val() ),
+            
+            
+        $.getJSON(universityData.root_url + '/wp-json/wp/v2/pages?search=' + this.searchField.val() )
+        
+        ).then( (posts, pages) => {
+            
+            
+            /*
+            posts[0] - kaya nilagyan ng [0] -- para daw dun lang tayo tumingin
+            sa actual data na galing sa JSON request - kasi array sya marami ring laman
+            - ung ibang laman daw ng posts[] is whether its succeded or failed
+            ganun din sa pages[0]
+            */
+            var combinedResults = posts[0].concat(pages[0]);
+/*
+andun sa baba ung maraming comment ung explaination
+*/            
+            
+            /*
+            VERY POWERFUL
+            ${ item.type == 'post' }
+            san daw makikita ung item.type ? dun sa Json, tignan dun sa browser
+            makikita dun ung type
+            */
+            this.resultsDiv.html(`
 
 <h2 class="search-overlay__section-title"> General Information </h2>
 
 ${combinedResults.length ? '<ul class="link-list min-list">' : '<p> No general information for that result. </p>'   }
 
-${combinedResults.map(item => `<li> <a href="${item.link}"> ${item.title.rendered} </a></li>`).join('') }
+${combinedResults.map( item => `<li> <a href="${ item.link }"> ${ item.title.rendered } </a>
+${item.type == 'post' ? `by ${item.authorName}` : '' } </li>`).join('') }
 
 ${combinedResults.length ? '</ul>' : '' }
 
 
 `);
-            })
+            
+            
+            /* 2nd argument ng then $.then() */
+        }, ()=>{
+            this.resultsDiv.html('<p> Unexpected error; Please try again.')
+        })
 
 
 
-            this.isSpinnerVisible = false;
-        }) /* getJSON */
-    } /*getResults*/
-
-    // ---------------------------------------------------
-    openOverlay(){
-
-        // adding class to active the div on search
-        this.searchOverlay.addClass('search-overlay--active');
-
-        //adding class to the body so the user wont be able to scroll 
-        //during search
-        $('body').addClass('body-no-scroll');
-
-        //setting search field empty on open
-        this.searchField.val(''); 
-
-        //set time out delay to let it load 1st before adding the focus
-        setTimeout( () => this.searchField.focus() ,301)
-
-        // condition for checking
-        this.isOverlayOpen = true;
-    }
-
-    closeOverlay(){
-        this.searchOverlay.removeClass('search-overlay--active');
-        $('body').removeClass('body-no-scroll');
-        this.isOverlayOpen = false;
+        this.isSpinnerVisible = false;
 
     }
 
 
-    // ---------------------------------------------------
-    keyPressDispatcher(e){
 
-        //doble checking - 
-        //1st check - kung ung napressed is 'S'
-        //2nd check - kung naset ba ni openOverlay() and closeOverlay()
-        // kung false or true
 
-        // 3rd args - we will make sure that in input field and textarea field
-        // the hasnt not click or focus the field 
-        if(e.keyCode == 83 &&  !this.isOverlayOpen && !$("input, textarea").is(':focus')){
-            this.openOverlay();
-            console.log('close ba?')
 
-        }
 
-        if(e.keyCode == 27 &&  this.isOverlayOpen ){
-            this.closeOverlay();
-            console.log('open ba?')
 
-        } 
+
+
+// -------------------------------------------------------------------------
+/*----------- Vid 50 onwards OLD Strategy ng pag handle ng JSON Request */
+// -----------A   Synchronous Strategy -------
+// -------------------------------------------------------------------------
+
+    // universityData.root_url - we can see its value inside functions.php
+    // ^ this is very powerful!
+    // setting this para kapag run ng method sa taas ^
+    // gagana parin ung spin loader.
+    // this is a logic DON'T Forget!
+    // was hidden because this is the ealier video
+    // this.isSpinnerVisible = false; 
+
+
+    //map() can have access to the array and create new version
+    // inside map() is a function that will run in each item
+    // but its output will have commas(',')
+    // so we use join()
+    // join() is JS on how we can convert an array to a simple string
+    // inside join is a character betwenn the item join( x - >  ,)
+    // we can also put join('')  so the output is just blank
+
+
+    //ternary operator - that can work inside template literal
+    // a ternary operator is short way of creating conditional logic
+    // ternary - 1st args condition a tru or false
+    // ternary - 2nd arg function you want to run
+    // ternary - 3rd a function when the condition is false
+    // $posts.length - will check if the search field has value 
+    // as soon all the code run -- isSpinnerVisible = false
+    // posts.concat() - to combine multiple array
+//    $.getJSON(universityData.root_url + '/wp-json/wp/v2/posts?search=' + this.searchField.val(), posts => {
+//
+//        $.getJSON(universityData.root_url + '/wp-json/wp/v2/pages?search=' + this.searchField.val(), pages => {
+//
+//            var combinedResults = posts.concat(pages);
+//
+//            this.resultsDiv.html(`
+//
+//<h2 class="search-overlay__section-title"> General Information </h2>
+//
+//${combinedResults.length ? '<ul class="link-list min-list">' : '<p> No general information for that result. </p>'   }
+//
+//${combinedResults.map(item => `<li> <a href="${item.link}"> ${item.title.rendered} </a></li>`).join('') }
+//
+//${combinedResults.length ? '</ul>' : '' }
+//
+//
+//`);
+//        })
+//
+//
+//
+//        this.isSpinnerVisible = false;
+//    }) /* getJSON */
+//} /*getResults*/
+    
+// -------------------------------------------------------------------------
+/*----------- Vid 50 onwards OLD Strategy ng pag handle ng JSON Request */
+// -------------------------------------------------------------------------
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+// ---------------------------------------------------
+openOverlay(){
+
+    // adding class to active the div on search
+    this.searchOverlay.addClass('search-overlay--active');
+
+    //adding class to the body so the user wont be able to scroll 
+    //during search
+    $('body').addClass('body-no-scroll');
+
+    //setting search field empty on open
+    this.searchField.val(''); 
+
+    //set time out delay to let it load 1st before adding the focus
+    setTimeout( () => this.searchField.focus() ,301)
+
+    // condition for checking
+    this.isOverlayOpen = true;
+}
+
+closeOverlay(){
+    this.searchOverlay.removeClass('search-overlay--active');
+    $('body').removeClass('body-no-scroll');
+    this.isOverlayOpen = false;
+
+}
+
+
+// ---------------------------------------------------
+keyPressDispatcher(e){
+
+    //doble checking - 
+    //1st check - kung ung napressed is 'S'
+    //2nd check - kung naset ba ni openOverlay() and closeOverlay()
+    // kung false or true
+
+    // 3rd args - we will make sure that in input field and textarea field
+    // the hasnt not click or focus the field 
+    if(e.keyCode == 83 &&  !this.isOverlayOpen && !$("input, textarea").is(':focus')){
+        this.openOverlay();
+        console.log('close ba?')
+
     }
 
-    addSearchHTML(){
-        $('body').append(`
+    if(e.keyCode == 27 &&  this.isOverlayOpen ){
+        this.closeOverlay();
+        console.log('open ba?')
+
+    } 
+}
+
+addSearchHTML(){
+    $('body').append(`
 <div class="search-overlay ">
 <div class="search-overlay__top">
 <div class="container">
@@ -249,7 +350,7 @@ ${combinedResults.length ? '</ul>' : '' }
 </div>
 </div>
 `)
-    }
+}
 }
 
 

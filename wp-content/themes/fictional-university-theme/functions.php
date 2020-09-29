@@ -1,5 +1,32 @@
 <?php
 
+function university_custom_rest(){
+    
+    /*
+    VERY POWERFUL
+    3args
+    1st arg - the post type we want to customize
+    2nd arg - whatever name you want to add.
+    3rd arg - an array that describes how we want to manage this field
+    We can create as many property as we want.
+    
+    The added Idea here - we can create a data using PHP and use it to Javascript
+    */
+    register_rest_field('post', 'authorName', array(
+    /*
+    our function is going to look for an argument named 
+    get_callback and set it equal to function
+    whatever the function return, it will be use as a value
+    for 
+    */
+    'get_callback'      => function(){ return get_the_author(); }
+
+));
+}
+
+add_action('rest_api_init', 'university_custom_rest');
+
+
 //php logic will live here
 // !args['title] - if the title is not passed into it - and if thats the case,
 //then let's just set the title field for that post or page

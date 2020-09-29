@@ -25,12 +25,36 @@
             pre {
                 background-color: #555;
                 color: #ddd;
+                padding: 30px 10px;
+            }
+            span {
+                color:yellow;
+                font-size: 16px;
             }
         </style>
     </head>
     <body>
 
         <div id="accordion" >
+            <h3> Course Javascript </h3>
+            <div>
+                <pre>
+                <span>
+                // here. put your focus on this.searchField.focus()
+                // what it does is to add focus on search field
+                // when users click - explained at f14v58 - 620
+                // we use set timeout to let the page load before adding focus
+                </span>                    
+
+                     openOverlay(){
+
+                    this.searchOverlay.addClass('search-overlay--active');
+                    $('body').addClass('body-no-scroll');
+                    setTimeout( () => this.searchField.focus() ,301)
+                    this.isOverlayOpen = true;
+                }
+               </pre>
+            </div>
             <h3> Course Functions | WordPress Functions </h3>
             <div>
 
@@ -83,6 +107,20 @@
                 get_post_type_archive_link('event') - give the correct CPT link
 
                 get_post_type()  = can use in if condition - will return the current CPT
+
+
+                <h5> HUSAY THIS we can use or create as many of this as we want -  </h5>
+                //f14v57 - 12:00 - you watch
+                // will let us output a little bit of JS data into source
+                // 1st arg - the name of the handle of our main JS file
+                // dapat daw match kung nasan ung main JS file - pero gamit lang ung name ng handle as argument
+                // 2nd arg - gawagawa ng variable  name
+                // 3rd arg - an array of data that we want to be availabe in Javascript
+                wp_localize_script('main-university-js', 'universityData', array(
+
+                'root_url' => get_site_url()
+
+                ) );
         </pre>
                 <h5> Advance Custom Fields</h5>
                 <pre>
@@ -1177,12 +1215,13 @@
                     alert(posts[0].title.rendered);
                 })
             </pre>
-                <h3> f14v56 - Generate HTML Base on JSON </h3>
-                <div>
-                    <pre>
+            </div>
+            <h3> f14v56 - Generate HTML Base on JSON </h3>
+            <div>
+                <pre>
                       // ung 'this' daw sa this.searchField.val()
                       // ay hindi pointin sa pinaka object
-                      // so to solved daw un we need to
+                      // so to solve d daw un we need to
                       // $.getJSON(url,function({}.bind(this) ) )
                       // sa bind this ka tumingin asshole
                       or
@@ -1193,13 +1232,53 @@
                     this.resultsDiv.html(posts[0].title.rendered);
                 })
                 </pre>
+                <pre>
+                <span> in javascript every method has access to javascript name map() and it can create a new version of an array 
+                inside a map is a function that will run once in each item of the array
+                   // but its output will have commas(',')
+                    // so we use join()
+                    // join is how we can convert an array to a simple string
+
+                </span>
+
+             var testArray = ['red','orange', 'yellow']
+            this.resultsDiv.html(`
+                h2 class="search-overlay__section-title"> General Information /h2
+                ul class="link-list min-list">
+                li a href="${posts[0].link}" ${posts[0].title.rendered} /a /li
+                ${testArray.map(item => `<li> ${item}</li>`).join() }
+
+
+
+</pre>
+                <h3>f1457 - Conditional Template within Template Literal </h3>
+                <div>
+                    <pre>
+                    punta ka sa search.js andun lahat
+               </pre>
+                </div>
                 
-                ended in 19:04
+                
+                <h3>f1459 - Searching on multiple post type</h3>
+                <div>
+                    <pre>
+                          <span>
+                             this technique is synchronous - meaning 1by1 -- not good
+                              we create 2 $.getJSON then we combined the value using 1stArray.concat(2ndArray)
+                          </span>
+                          
+                           $.getJSON(universityData.root_url + '/wp-json/wp/v2/posts?search=' + this.searchField.val(), posts => {
+            
+                        $.getJSON(universityData.root_url + '/wp-json/wp/v2/pages?search=' + this.searchField.val(), pages => {
+
+                            var combinedResults = posts.concat(pages);
+                    </pre>
                 </div>
             </div>
-            
-            
-            
+
+
+
+
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut dicta facilis quis excepturi, labore eaque totam eligendi odio iure, aspernatur culpa provident magnam harum exercitationem rem impedit, quia deleniti? Dignissimos tempore, numquam ducimus esse. Itaque ut nemo deserunt, facere eligendi earum aspernatur doloremque aliquid, eos ad ea. Culpa, veniam, beatae!
 
 

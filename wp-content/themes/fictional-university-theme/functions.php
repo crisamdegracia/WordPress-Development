@@ -67,8 +67,17 @@ function university_files(){
     wp_enqueue_script('main-university-js', get_theme_file_uri('/js/scripts-bundled.js'), NULL, microtime() , TRUE  );
 
 
-
-
+    //f14v57 - 12:00 - you watch
+    // will let us output a little bit of JS data into source
+    // 1st arg - the name of the handle of our main JS file
+    // dapat daw match kung nasan ung main JS file - pero gamit lang ung name ng handle as argument
+    // 2nd arg - gawagawa ng variable  name
+    // 3rd arg - an array of data that we want to be availabe in Javascript
+    wp_localize_script('main-university-js', 'universityData', array(
+    
+    'root_url' => get_site_url()
+    
+    ) );
 
 }
 

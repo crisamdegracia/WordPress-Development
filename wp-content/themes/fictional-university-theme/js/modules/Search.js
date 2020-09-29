@@ -10,7 +10,10 @@ class Search {
     // ang pag kakaintindi ko is dito sa contructor ung mga 
     // variables - tapos at the end this.events() will call them
     // they are called property
+
+    // addSearchHTML is where our search resides
     constructor(){
+        this.addSearchHTML();
         this.resultsDiv     = $('#search-overlay__results');
         this.openButton     = $('.js-search-trigger');
         this.closeButton    = $('.search-overlay__close');
@@ -100,7 +103,7 @@ class Search {
                     this.isSpinnerVisible = true;
                 }
                 // this will set a value for 
-                this.typingTimer = setTimeout(this.getResults.bind(this),1400); 
+                this.typingTimer = setTimeout(this.getResults.bind(this), 500); 
 
             } else {
 
@@ -124,28 +127,75 @@ class Search {
     // ---------------------------------------------------
 
     getResults() {
+        // universityData.root_url - we can see its value inside functions.php
+        // ^ this is very powerful!
         // setting this para kapag run ng method sa taas ^
         // gagana parin ung spin loader.
         // this is a logic DON'T Forget!
         // was hidden because this is the ealier video
         // this.isSpinnerVisible = false; 
 
-        $.getJSON('http://localhost:10024/wp-json/wp/v2/posts?search=' + this.searchField.val(), posts => {
-            this.resultsDiv.html(`
+
+        //map() can have access to the array and create new version
+        // inside map() is a function that will run in each item
+        // but its output will have commas(',')
+        // so we use join()
+        // join() is JS on how we can convert an array to a simple string
+        // inside join is a character betwenn the item join( x - >  ,)
+        // we can also put join('')  so the output is just blank
+
+
+        //ternary operator - that can work inside template literal
+        // a ternary operator is short way of creating conditional logic
+        // ternary - 1st args condition a tru or false
+        // ternary - 2nd arg function you want to run
+        // ternary - 3rd a function when the condition is false
+        // $posts.length - will check if the search field has value 
+        // as soon all the code run -- isSpinnerVisible = false
+        // posts.concat() - to combine multiple array
+        $.getJSON(universityData.root_url + '/wp-json/wp/v2/posts?search=' + this.searchField.val(), posts => {
+            
+            $.getJSON(universityData.root_url + '/wp-json/wp/v2/pages?search=' + this.searchField.val(), pages => {
+                
+                var combinedResults = posts.concat(pages);
+                
+                this.resultsDiv.html(`
+
 <h2 class="search-overlay__section-title"> General Information </h2>
-<ul class="link-list min-list">
-<li> <a href="${posts[0].link}"> ${posts[0].title.rendered} </a> </li>
+
+${combinedResults.length ? '<ul class="link-list min-list">' : '<p> No general information for that result. </p>'   }
+
+${combinedResults.map(item => `<li> <a href="${item.link}"> ${item.title.rendered} </a></li>`).join('') }
+
+${combinedResults.length ? '</ul>' : '' }
 
 
 `);
-        })
-    }
+            })
+
+
+
+            this.isSpinnerVisible = false;
+        }) /* getJSON */
+    } /*getResults*/
 
     // ---------------------------------------------------
     openOverlay(){
 
+        // adding class to active the div on search
         this.searchOverlay.addClass('search-overlay--active');
+
+        //adding class to the body so the user wont be able to scroll 
+        //during search
         $('body').addClass('body-no-scroll');
+
+        //setting search field empty on open
+        this.searchField.val(''); 
+
+        //set time out delay to let it load 1st before adding the focus
+        setTimeout( () => this.searchField.focus() ,301)
+
+        // condition for checking
         this.isOverlayOpen = true;
     }
 
@@ -178,6 +228,27 @@ class Search {
             console.log('open ba?')
 
         } 
+    }
+
+    addSearchHTML(){
+        $('body').append(`
+<div class="search-overlay ">
+<div class="search-overlay__top">
+<div class="container">
+<i class="fa fa-search search-overlay__icon" aria-hidden="true"></i>
+<input id="search-term" type="text" placeholder="What are you looking for?" class="search-term">
+<i class="fa fa-window-close search-overlay__close" aria-hidden="true"></i>
+
+</div>
+</div>
+
+<div class="container">
+<div id="search-overlay__results">
+
+</div>
+</div>
+</div>
+`)
     }
 }
 

@@ -1,7 +1,42 @@
 <?php
 
+/*
+
+Reason Why We Are Creating Our Own 
+New REST API URL
+
+1. Custom Search Logic
+2. Respond with less JSON data ( load faster for visitors )
+3. Send only 1 JSON request instead of 6 in our JS
+4. Perfect excercise for sharpening PHP
+*/
+
+
 function university_post_types(){
 
+    
+    //Professor post type
+    //  'rewrite' => array('slug' => 'professors'), - was removed
+    // show_in_rest = true - you can now access the json URL - 
+    // /wp-json/wp/v2/professor
+    register_post_type('professor', array(
+        'show_in_rest'  => true,
+        'supports'      => array('title', 'editor', 'thumbnail'),
+        'public'        => true,
+        'labels'        => array(
+            'name'      => 'Professor',
+            'add_new_item'  => 'Add New Professor',
+            'edit_item'     => 'Edit Professor',
+            'all_items'     => 'All Professor',
+            'singular_name' => 'Professor'
+        ),
+        'menu_icon' => 'dashicons-welcome-learn-more'
+    )); 
+    
+    
+    
+    
+    
     //public - this will make visible to editors and viewers of the website
     //labels -> name -> the name on side panel 
     //has_archive -> true - to tell WP to create an archive page for this CPT
@@ -40,21 +75,6 @@ function university_post_types(){
     ));
 
 
-    //Professor post type
-    //  'rewrite' => array('slug' => 'professors'), - was removed
-    register_post_type('professor', array(
-        'supports' => array('title', 'editor', 'thumbnail'),
-        'public' => true,
-        'labels' => array(
-            'name' => 'Professor',
-            'add_new_item' => 'Add New Professor',
-            'edit_item' => 'Edit Professor',
-            'all_items' => 'All Professor',
-            'singular_name' => 'Professor'
-        ),
-        'menu_icon' => 'dashicons-welcome-learn-more'
-    )); 
-    
     //Campus Post Type
     register_post_type('campus', array(
         'supports' => array('title', 'editor', 'excerpt'),

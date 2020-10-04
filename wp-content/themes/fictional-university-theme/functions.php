@@ -1,5 +1,12 @@
 <?php
 
+/*
+this 
+require get_theme_file_path('/inc/search-route.php')
+is not required - its just for making things organize
+*/
+require get_theme_file_path('/inc/search-route.php');
+
 function university_custom_rest(){
     
     /*
@@ -7,7 +14,8 @@ function university_custom_rest(){
     3args
     1st arg - the post type we want to customize
     2nd arg - whatever name you want to add.
-    3rd arg - an array that describes how we want to manage this field
+    3rd arg - an array that describes how we want to manage this field.
+    
     We can create as many property as we want.
     
     The added Idea here - we can create a data using PHP and use it to Javascript
@@ -17,19 +25,31 @@ function university_custom_rest(){
     our function is going to look for an argument named 
     get_callback and set it equal to function
     whatever the function return, it will be use as a value
-    for 
+    for authorName - that we can call in Javascript
     */
     'get_callback'      => function(){ return get_the_author(); }
 
 ));
+    /*
+    Create more!
+    register_rest_field();
+    register_rest_field();
+    register_rest_field();
+    */
+    
 }
 
+/*
+1st arg - a hook 
+2nd arg - function name
+*/
 add_action('rest_api_init', 'university_custom_rest');
 
 
-//php logic will live here
-// !args['title] - if the title is not passed into it - and if thats the case,
-//then let's just set the title field for that post or page
+// php logic will live here
+// !args['title'] - if the title is not passed into it page - and if thats the case,
+// then let's just set the title field for that post or page to get_the_title()
+
 function pageBanner($args = NULL ){
 
     if( !$args['title'] ){
@@ -38,7 +58,7 @@ function pageBanner($args = NULL ){
     if( !$args['sub-title'] ){
         $args['sub-title'] = get_field('page_banner_subtitle');
     } 
-    if ( !$args['photo']){
+    if ( !$args['photo'] ){
         if(get_field('page_banner_background_image')){
             $args['photo']     =  get_field('page_banner_background_image')['sizes']['pageBanner'];
         } else {

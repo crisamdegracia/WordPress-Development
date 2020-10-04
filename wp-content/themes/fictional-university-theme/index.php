@@ -12,8 +12,6 @@ pageBanner(array(
 
 
 
-
-
 <div class="container container--narrow page-section">
 
     <?php

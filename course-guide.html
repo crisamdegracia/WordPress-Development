@@ -1251,6 +1251,7 @@
 
 
 </pre>
+            </div>
                 <h3>f1457 - Conditional Template within Template Literal </h3>
                 <div>
                     <pre>
@@ -1284,6 +1285,50 @@
                         go to functions.php - 
                         
                     </pre>
+                </div>
+                
+                <h3>f1562 - Create Custom Route REST_API</h3>
+                <div>
+                   
+                   <h5>Go to the - inc/search-route.php andun ung best explain</h5>
+                    <pre>
+                        go to mu-plugin folder open the post-type
+                        show_in_rest'  => true,
+                        
+                        
+                        function university_post_types(){
+
+
+                        //Professor post type
+                        //  'rewrite' => array('slug' => 'professors'), - was removed
+                        // show_in_rest = true - you can now access the json URL - 
+                        // /wp-json/wp/v2/professor
+                        register_post_type('professor', array(
+                            'show_in_rest'  => true,
+                            'supports'      => array('title', 'editor', 'thumbnail'),
+                            'public'        => true,
+                            'labels'        => array(
+                                'name'      => 'Professor',
+                                'add_new_item'  => 'Add New Professor',
+                                'edit_item'     => 'Edit Professor',
+                                'all_items'     => 'All Professor',
+                                'singular_name' => 'Professor'
+                            ),
+                            'menu_icon' => 'dashicons-welcome-learn-more'
+                        )); 
+    
+    
+                    </pre>
+                    
+                    <pre>
+                        create inc folder > create  search-route.php
+                    </pre>
+                </div>
+                
+                
+                <h3>f1563 - Create your own Raw JSON Data</h3>
+                <div>
+                    4:47
                 </div>
             </div>
 

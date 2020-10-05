@@ -1,11 +1,15 @@
 <?php
 
-/*
+/*-------------------------------------------------------
 this 
 require get_theme_file_path('/inc/search-route.php')
 is not required - its just for making things organize
+
 */
 require get_theme_file_path('/inc/search-route.php');
+/*-------------------------------------------------------*/
+
+
 
 function university_custom_rest(){
     

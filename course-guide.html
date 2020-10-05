@@ -36,6 +36,13 @@
     <body>
 
         <div id="accordion" >
+           <h3> Security </h3>
+           <div>
+               <pre>
+                  // to sanitize input fields - a php method
+                   sanitize_text_field()
+               </pre>
+           </div>
             <h3> Course Javascript </h3>
             <div>
                 <pre>
@@ -466,7 +473,7 @@
 
             <h3>f623 - Custom Queries | Finally </h3>
             <div>
-                <h5></h5>
+                <h5> in f15v63 - we created a new way how to create this outside this front-end.php file</h5>
                 <pre>
               $homepagePosts = new WP_Query(array(
                         'posts_per_page' => 2
@@ -1291,8 +1298,47 @@
                 <div>
                    
                    <h5>Go to the - inc/search-route.php andun ung best explain</h5>
+                   <pre>
+                      
+                      <h5>IMPORTANT READ! for creating cistom routes</h5>
+                       /wp-json/wp/v2/professor?search=biology
+                       
+                       the reason hose professors are not showing up when i run this 
+                       search is becoz the native WordPress search Logic only searches
+                       within really obvious fields like the title field and main body element
+                       
+                       wordpress doesnt search wthin our custom fields
+                       and even if it did it wouldnt know how to interpret the relationships
+                       that we set up between different post_types
+                       
+                       
+                       thats why we will create our custom post type URL
+                   </pre>
+                    <pre>
+                        create inc folder > create  search-route.php
+                        
+                        pero ilagayn muna ung code dun sa functions.php
+                        bago mag create ng custom URL sa search-route.php
+                        
+                        pero nung dinelet ko ung 'show_in_rest'  => true, sa 
+                        pinaka post type file - gumana  parin
+                    </pre>
+                    
+                    <pre>
+                        
+                        Reason Why We Are Creating Our Own 
+                        New REST API URL
+
+                        1. Custom Search Logic
+                        2. Respond with less JSON data ( load faster for visitors )
+                        3. Send only 1 JSON request instead of 6 in our JS
+                        4. Perfect excercise for sharpening PHP
+
+
+                    </pre>
                     <pre>
                         go to mu-plugin folder open the post-type
+                        
                         show_in_rest'  => true,
                         
                         
@@ -1320,15 +1366,22 @@
     
                     </pre>
                     
-                    <pre>
-                        create inc folder > create  search-route.php
-                    </pre>
+                   
                 </div>
                 
                 
                 <h3>f1563 - Create your own Raw JSON Data</h3>
                 <div>
-                    4:47
+                    <h5> Go to the search-route.php </h5>
+                </div>
+                
+                
+                <h3>f1564 - WP_Query and Keyword Searching</h3>
+                <div>
+                    <pre>
+                        
+                        
+                    </pre>
                 </div>
             </div>
 

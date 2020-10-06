@@ -36,13 +36,13 @@
     <body>
 
         <div id="accordion" >
-           <h3> Security </h3>
-           <div>
-               <pre>
+            <h3> Security </h3>
+            <div>
+                <pre>
                   // to sanitize input fields - a php method
                    sanitize_text_field()
                </pre>
-           </div>
+            </div>
             <h3> Course Javascript </h3>
             <div>
                 <pre>
@@ -1259,73 +1259,73 @@
 
 </pre>
             </div>
-                <h3>f1457 - Conditional Template within Template Literal </h3>
-                <div>
-                    <pre>
+            <h3>f1457 - Conditional Template within Template Literal </h3>
+            <div>
+                <pre>
                     punta ka sa search.js andun lahat
                </pre>
-                </div>
-                
-                
-                <h3>f1459 - Searching on multiple post type</h3>
-                <div>
-                    <pre>
-                         
+            </div>
+
+
+            <h3>f1459 - Searching on multiple post type</h3>
+            <div>
+                <pre>
+
                          <h5> go to the search.js file - andun ung complete explain</h5>
                           <span>
                              this technique is synchronous - meaning 1by1 -- not good
                               we create 2 $.getJSON then we combined the value using 1stArray.concat(2ndArray)
                           </span>
-                          
+
                            $.getJSON(universityData.root_url + '/wp-json/wp/v2/posts?search=' + this.searchField.val(), posts => {
-            
+
                         $.getJSON(universityData.root_url + '/wp-json/wp/v2/pages?search=' + this.searchField.val(), pages => {
 
                             var combinedResults = posts.concat(pages);
                     </pre>
-                </div>
-                
-                <h3>f15v61 - RESP API add new Custom Field</h3>
-                <div>
-                   <h5> how to add Custom value in JSON Request response</h5>
-                    <pre>
+            </div>
+
+            <h3>f15v61 - RESP API add new Custom Field</h3>
+            <div>
+                <h5> how to add Custom value in JSON Request response</h5>
+                <pre>
                         go to functions.php - 
-                        
+
                     </pre>
-                </div>
-                
-                <h3>f1562 - Create Custom Route REST_API</h3>
-                <div>
-                   
-                   <h5>Go to the - inc/search-route.php andun ung best explain</h5>
-                   <pre>
-                      
+            </div>
+
+            <h3>f1562 - Create Custom Route REST_API</h3>
+            <div>
+
+                <h5>Go to the - inc/search-route.php andun ung best explain</h5>
+                <pre>
+
                       <h5>IMPORTANT READ! for creating cistom routes</h5>
                        /wp-json/wp/v2/professor?search=biology
-                       
+
                        the reason hose professors are not showing up when i run this 
                        search is becoz the native WordPress search Logic only searches
                        within really obvious fields like the title field and main body element
-                       
+
                        wordpress doesnt search wthin our custom fields
                        and even if it did it wouldnt know how to interpret the relationships
                        that we set up between different post_types
-                       
-                       
+
+
                        thats why we will create our custom post type URL
                    </pre>
-                    <pre>
+                <pre>
                         create inc folder > create  search-route.php
-                        
+
                         pero ilagayn muna ung code dun sa functions.php
                         bago mag create ng custom URL sa search-route.php
-                        
+
                         pero nung dinelet ko ung 'show_in_rest'  => true, sa 
                         pinaka post type file - gumana  parin
                     </pre>
-                    
-                    <pre>
-                        
+
+                <pre>
+
                         Reason Why We Are Creating Our Own 
                         New REST API URL
 
@@ -1336,12 +1336,12 @@
 
 
                     </pre>
-                    <pre>
+                <pre>
                         go to mu-plugin folder open the post-type
-                        
+
                         show_in_rest'  => true,
-                        
-                        
+
+
                         function university_post_types(){
 
 
@@ -1362,47 +1362,75 @@
                             ),
                             'menu_icon' => 'dashicons-welcome-learn-more'
                         )); 
-    
-    
+
+
                     </pre>
-                    
-                   
-                </div>
-                
-                
-                <h3>f1563 - Create your own Raw JSON Data</h3>
-                <div>
-                    <h5> Go to the search-route.php </h5>
-                </div>
-                
-                
-                <h3>f1564 - WP_Query and Keyword Searching</h3>
-                <div>
-                    <pre>
-                        
-                        
-                    </pre>
-                </div>
+
+
             </div>
 
 
+            <h3>f1563 - Create your own Raw JSON Data</h3>
+            <div>
+                <h5> Go to the search-route.php </h5>
+            </div>
 
 
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut dicta facilis quis excepturi, labore eaque totam eligendi odio iure, aspernatur culpa provident magnam harum exercitationem rem impedit, quia deleniti? Dignissimos tempore, numquam ducimus esse. Itaque ut nemo deserunt, facere eligendi earum aspernatur doloremque aliquid, eos ad ea. Culpa, veniam, beatae!
+            <h3>f1564 - WP_Query and Keyword Searching</h3>
+            <div>
+                <pre>
+
+                         Go to the search-route.php 
+                    </pre>
+            </div>
+
+
+            <h3>f15v65 - JSON with multiple post_types</h3>
+            <div>
+                <pre>
+                         Go to the search-route.php 
+
+                    </pre>
+            </div>
+            
+            
+            <h3>f16v66 - Update Front-End JS to Use New API URL </h3>
+            <div>
+                go to search-route.php
+                go to Search.js
+            </div>
+            
+            <h3>f16v67 - 067 Custom Layout & JSON based on Post Type </h3>
+            <div>
+                go to search-route.php
+                go to Search.js
+            </div>
+            
+            <h3>f16v67 -068 Search Logic That's Aware of Relationships</h3>
+            <div>
+               Searching by relationship
+            </div>
+        </div>
+        
+
+
+
+
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut dicta facilis quis excepturi, labore eaque totam eligendi odio iure, aspernatur culpa provident magnam harum exercitationem rem impedit, quia deleniti? Dignissimos tempore, numquam ducimus esse. Itaque ut nemo deserunt, facere eligendi earum aspernatur doloremque aliquid, eos ad ea. Culpa, veniam, beatae!
 
 
 
         </div>
-        <script src="../jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-        <script>
-            $( function() {
-                $( "#accordion" ).accordion({
-                    collapsible: true,
-                    heightStyle: "content"
+    <script src="../jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $( function() {
+            $( "#accordion" ).accordion({
+                collapsible: true,
+                heightStyle: "content"
 
-                });
+            });
 
-            } );
-        </script>
+        } );
+    </script>
     </body>
 </html>

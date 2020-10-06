@@ -223,7 +223,11 @@ function universitySearchResults( $data ){
     /* 
     Creating Search With Relationship
     
-    we are creating a filter just like on the earlu lectures
+    we are creating a filter just like on the early lectures
+    
+    'key'           => 'related_programs',
+    'compare'       =>  'LIKE',
+    'value'         =>  '"58"'   <-------------- THE ID of programs not dynamic
     */
     
     
@@ -231,10 +235,43 @@ function universitySearchResults( $data ){
         'post_type'         => 'professor',
         'meta_query'        => array(
         array(
-         
-        
+            'key'           => 'related_programs',
+            'compare'       =>  'LIKE',
+            'value'         =>  '"58"'
+            
         ))
     ));
+    
+    while($programRelationshipQuery->have_posts() ){
+        $programRelationshipQuery->the_post();
+        
+        
+           if(get_post_type() == 'professor'){
+
+            array_push($results['professors'], array(
+                'title'     => get_the_title(),
+                'permalink' => get_the_permalink(),
+                'image'     => get_the_post_thumbnail_url(0, 'professorLandscape')
+
+            ) );
+
+        } /* will be push to professors*/
+
+        
+    }
+    
+    
+    // to remove duplicate the created from pushing data to the result variable
+    /*
+    2args -
+    1st - the array we want to work with
+    2nd -  to please look within each sub item of an array when 
+    we are trying to determine if they arre dplicate or not
+        - SORT_REGULAR - array unique removes any and all duplicates
+        - by covering array_values() it will remove the numerical number 
+        before the array values
+        */
+    $results['professors'] = array_values(array_unique($results['professors'], SORT_REGULAR));
     
     return $results;
 

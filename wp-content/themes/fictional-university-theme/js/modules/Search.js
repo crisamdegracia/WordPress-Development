@@ -455,8 +455,14 @@ setTimeout( () => this.searchField.focus() ,301)
 
 // condition for checking
 this.isOverlayOpen = true;
+    
+    
+        /* this will prevent the default behavior of a link elements */
+    return false;
 }
 
+// ---------------------------------------------------
+    
 closeOverlay(){
 this.searchOverlay.removeClass('search-overlay--active');
 $('body').removeClass('body-no-scroll');
@@ -464,8 +470,8 @@ this.isOverlayOpen = false;
 
 }
 
-
 // ---------------------------------------------------
+
 keyPressDispatcher(e){
 
 //doble checking - 
@@ -488,6 +494,11 @@ console.log('open ba?')
 } 
 }
 
+    
+// ---------------------------------------------------
+    /*
+    The HTML for Search Overlay
+    */
 addSearchHTML(){
 $('body').append(`
 <div class="search-overlay ">

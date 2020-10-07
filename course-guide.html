@@ -1417,7 +1417,28 @@
             
             <h3> F16v69 - Search Logic That's Aware of Relationships (Part 2) </h3>
             <div>
+               <pre>
+                   
+                After all the coding examples we made inside search-route.php
+               there is one problem, is that when we include the keyword on the main text editor of the WP, say 
+               </pre>
+               <img src="./Images/WP-Problem.jpg" alt="">
+                <pre>
+                    the search will still be looking on the  editor and for the
+                    keyword and thinks that it is correct
+                    
+                    now, the solution is to create Advance Custom Fields
+                </pre>
                 
+                <img src="./Images/wysyg-editor.jpg" alt="">
+                
+                
+                <pre>
+                    we can remove the editor on the mu-plugins
+                    just remove the supports => array('editor')
+                    
+                    i remove it in the Advanced custom fiel 
+                </pre>
             </div>
         </div>
         

@@ -4,6 +4,9 @@
 
 
 /*
+Tang ina ang gulo! nung una okay mejo maikli pa ung code.!
+nung dumami na andami ko nang mga kommen nagulo lalo!
+
 The idea is to create custom JSON API 
 then ung mga PHP code is ma convert to Javascript
 
@@ -71,7 +74,7 @@ function universitySearchResults( $data ){
     /*
     Create a class kung san natin kukunin ung data
     - isa lang need natin, post_type lang.
-    parang ung nagawa lang tayong custom posty ype dun sa pinaka 
+    parang ung nagawa lang tayong custom post type dun sa pinaka 
     fron-end php file AHA!
 
     's' - stands for seach
@@ -115,7 +118,7 @@ function universitySearchResults( $data ){
       array_push($professorsResult, get_the_title() )
       pero kung get_title() nga lang daw - parang kulang - array()
 
-      old vud 63 - 
+      old vid 63 - 
       $result
     ----------------------------------------*/
 
@@ -125,7 +128,9 @@ function universitySearchResults( $data ){
       array_push( $professorsResult , array() )
 
 
-
+$results = array() <- from video 60 something 
+we create an arrays, so they can array_push the array 
+- then we can look and use what insides it 
     ----------------------------------------*/
 
     $results = array( 
@@ -157,6 +162,8 @@ function universitySearchResults( $data ){
 
         }  /* will be push to generalInfo    -- post % page*/
 
+
+
         if(get_post_type() == 'professor'){
 
             array_push($results['professors'], array(
@@ -168,11 +175,42 @@ function universitySearchResults( $data ){
 
         } /* will be push to professors*/
 
+
+        /*
+        in f16v69 - 2:31
+        we added ID - so we can add the relationship inside professors
+                        [0][id] - zero is to look 1st on the 1st item
+                        where the array value resides
+        it will look like this $results['programs'][0]['id']
+        */
         if(get_post_type() == 'program' ){
+
+            $relatedCampus = get_field('related_campuses');
+            /*
+ang una ginawa ko nag gawa ako ng katulad ng mga unang ginawa nya 
+about relationships, but this in the campuses are totally different approach
+
+we will only run this code if $relatedCampus is not empty
+*/
+            if($relatedCampus){
+
+                foreach($relatedCampus as $campus){
+                    /*
+                    f16v70 - watch there there
+                    what we wanna loop here will be push into the $results['campuses'] array
+                    */
+                    array_push($results['campuses'], array(
+                        'title' => get_the_title($campus),
+                        'permalink' => get_the_permalink($campus )
+                    ) );
+
+                }
+            }
 
             array_push($results['programs'], array(
                 'title'     => get_the_title(),
                 'permalink' => get_the_permalink(),
+                'id'        => get_the_ID()
 
 
             ) );
@@ -183,7 +221,6 @@ function universitySearchResults( $data ){
         if(get_post_type() == 'event' ){
 
             /* Tricky! create a day and month*/
-
             $eventDate = new DateTime( get_post_field('event_date') );
 
             /*Create short description from events*/
@@ -214,55 +251,151 @@ function universitySearchResults( $data ){
                 'permalink' => get_the_permalink(),
 
 
-            ) );
+            ));
 
         }
     }
 
-    
-    /* 
-    Creating Search With Relationship
-    
+    /* Start of the related programs array_push ---------------------------------------------------------------------------
+    Creating Search With Relationships in program
+
+    creating relationship before returning the result
+
+
+    this solves the problem on 'post_type' => 'professor'
+         */
+    if( $results['programs']){
+        /*
     we are creating a filter just like on the early lectures
-    
+
     'key'           => 'related_programs',
     'compare'       =>  'LIKE',
-    'value'         =>  '"58"'   <-------------- THE ID of programs not dynamic
-    */
-    
-    
-    $programRelationshipQuery = new WP_Query(array(
-        'post_type'         => 'professor',
-        'meta_query'        => array(
-        array(
-            'key'           => 'related_programs',
-            'compare'       =>  'LIKE',
-            'value'         =>  '"58"'
-            
-        ))
-    ));
-    
-    while($programRelationshipQuery->have_posts() ){
-        $programRelationshipQuery->the_post();
-        
-        
-           if(get_post_type() == 'professor'){
+    'value'         =>  '"58"'   <-------------- THE ID of programs  not dynamic
 
-            array_push($results['professors'], array(
-                'title'     => get_the_title(),
-                'permalink' => get_the_permalink(),
-                'image'     => get_the_post_thumbnail_url(0, 'professorLandscape')
+    .$results['programs'][0]['id']. <---- Dynamic
+
+    the question raised what if there are multiple programs in array?
+    for example Basic-Math - Advanced-Math
+    in that case we dont want to set it on the first item [0] on the filter value
+
+    */
+        // relation => OR - we just manually added it as value
+        $programsMetaQuery  = array('relation'  => 'OR');
+
+
+        /* loop and add other array inside 1st item on programs */
+        foreach($results['programs'] as $item ){
+
+            /*
+        1st args the array we want to add into
+        2nd the item we want to add
+
+
+        Napaka Lupet! PWEDE pala yon?
+        ung array_push 2nd args!
+        tapos nilagay na dun sa filter meta_query as value
+        */
+            array_push($programsMetaQuery, array(
+                'key'           => 'related_programs',
+                'compare'       =>  'LIKE',
+                'value'         =>  '"' .$item['id']. '"'
 
             ) );
-
-        } /* will be push to professors*/
-
+        }
         
-    }
+
+
+/*---- End of the $result['program'] ---------------------------------------*/
+
+            /*  
+    'post_type' - 'professors' <--- Problem
+    - is that when we search on search?term=asldkjaklsdj with any key values
+    it will still return all the programs related
+
+    in f16v70 - e nag bago. instead just professor, we create an array()
+
+
+    GO TO if - andun ung answer
     
-    
-    // to remove duplicate the created from pushing data to the result variable
-    /*
+        $programRelationshipQuery = new WP_Query(array(
+            'post_type'         => array('professor','event', 'campus'),
+            'meta_query'        =>  $programsMetaQuery
+
+     f16v69 - 10:22
+      NOT Dynamic - 
+        $programRelationshipQuery = new WP_Query(array(
+        'post_type'         => 'professor',
+        'meta_query'        => array(
+
+
+     array(
+            'key'           => 'related_programs',
+            'compare'       =>  'LIKE',
+            'value'         =>  '"' .$results['programs'][0]['id']. '"'
+
+        )), array(
+            'key'           => 'related_programs',
+            'compare'       =>  'LIKE',
+            'value'         =>  '"' .$results['programs'][1]['id']. '"'
+
+        )), array(
+            'key'           => 'related_programs',
+            'compare'       =>  'LIKE',
+            'value'         =>  '"' .$results['programs'][2]['id']. '"'
+
+        ));
+        ))*/
+
+        while($programRelationshipQuery->have_posts() ){
+            $programRelationshipQuery->the_post();
+
+
+            if(get_post_type() == 'professor'){
+
+                array_push($results['professors'], array(
+                    'title'     => get_the_title(),
+                    'permalink' => get_the_permalink(),
+                    'image'     => get_the_post_thumbnail_url(0, 'professorLandscape')
+
+                ) );
+
+            } /* will be push to professors*/
+
+
+            if(get_post_type() == 'event' ){
+
+                /* Tricky! create a day and month*/
+
+                $eventDate = new DateTime( get_post_field('event_date') );
+
+                /*Create short description from events*/
+                $description = null;
+
+                if( has_excerpt() ) {
+                    $description = get_the_excerpt();          
+                } else {
+                    $description =  wp_trim_words(get_the_content(), 18 );
+                } 
+
+                array_push($results['events'], array(
+                    'title'     => get_the_title(),
+                    'permalink' => get_the_permalink(),
+                    'month'     => $eventDate->format('M'),
+                    'day'       => $eventDate->format('d'),
+                    'description'   => $description
+
+
+                ) );
+
+            } /*will be push to events */
+
+
+
+        }
+
+
+        // to remove duplicate the created from pushing data to the result variable
+        /*
     2args -
     1st - the array we want to work with
     2nd -  to please look within each sub item of an array when 
@@ -271,8 +404,18 @@ function universitySearchResults( $data ){
         - by covering array_values() it will remove the numerical number 
         before the array values
         */
-    $results['professors'] = array_values(array_unique($results['professors'], SORT_REGULAR));
-    
+        $results['professors'] = array_values(array_unique($results['professors'], SORT_REGULAR));
+
+        /*---------- sa Event naman -----------*/
+        $results['event'] = array_values(array_unique($results['events'], SORT_REGULAR));
+
+
+    }
+
+
+
+
+
     return $results;
 
 

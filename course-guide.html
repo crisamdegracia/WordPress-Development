@@ -41,6 +41,16 @@
                 <pre>
                   // to sanitize input fields - a php method
                    sanitize_text_field()
+                   
+                   the esc_html() will take care the converting the text
+                   within the inner parenthesis
+                   
+                   now instead of as a value
+                   dont worry about the escaping on get_search_query(false)
+                   becuase daw ung esc_html() ung nag handle non
+                   
+                   to handle the malicous code
+                   esc_html( get_search_query(false) )
                </pre>
             </div>
             <h3> Course Javascript </h3>
@@ -1392,56 +1402,75 @@
 
                     </pre>
             </div>
-            
-            
+
+
             <h3>f16v66 - Update Front-End JS to Use New API URL </h3>
             <div>
                 go to search-route.php
                 go to Search.js
             </div>
-            
+
             <h3>f16v67 - 067 Custom Layout & JSON based on Post Type </h3>
             <div>
                 go to search-route.php
                 go to Search.js
             </div>
-            
+
             <h3>f16v68 Search Logic That's Aware of Relationships</h3>
             <div>
-               Searching by relationship
-               
-               go on the bottom of search-route.php
-               
-               we create filter - 
+                Searching by relationship
+
+                go on the bottom of search-route.php
+
+                we create filter - 
             </div>
-            
+
             <h3> F16v69 - Search Logic That's Aware of Relationships (Part 2) </h3>
             <div>
-               <pre>
-                   
+                <pre>
+
                 After all the coding examples we made inside search-route.php
                there is one problem, is that when we include the keyword on the main text editor of the WP, say 
                </pre>
-               <img src="./Images/WP-Problem.jpg" alt="">
+                <img src="./Images/WP-Problem.jpg" alt="">
                 <pre>
                     the search will still be looking on the  editor and for the
                     keyword and thinks that it is correct
-                    
+
                     now, the solution is to create Advance Custom Fields
                 </pre>
-                
+
                 <img src="./Images/wysyg-editor.jpg" alt="">
-                
-                
+
+
                 <pre>
                     we can remove the editor on the mu-plugins
                     just remove the supports => array('editor')
-                    
+
                     i remove it in the Advanced custom fiel 
                 </pre>
             </div>
+
+            <h3>f17v072 Traditional WordPress Searching (Part 2)</h3>
+            <div>
+               
+               we created search.php for search results page and page-search.php
+               for search form
+               
+               
+               we can call get_search_query() to display the search query
+               
+               esc_html( get_search_query() )
+            </div>
+            
+            <h3>f17072 Traditional WordPress Searching (Part 2)</h3>
+            <div>
+                <pre>
+                    we can create searchform.php then we can call it by get_search_form() -- make sure its a form
+                </pre>
+            </div>
         </div>
-        
+
 
 
 

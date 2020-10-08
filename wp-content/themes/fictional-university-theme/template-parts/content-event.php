@@ -1,12 +1,10 @@
 
 
-<!--
-
-//     echo get_fields('event_date') . 'asddasd <br>';
-//     echo get_field_object('event_date') . 'asddasd <br>';
-//     echo get_sub_field('event_date') . 'asddasd<br> ';
-//     echo get_post_field('event_date') . 'asddasd<br> ';
+ <!--
+this template part will be use in getting get_post_type()  
+for the result page     
 -->
+
 
 <div class="event-summary">
     <a class="event-summary__date t-center" href="<?php the_permalink() ?>">

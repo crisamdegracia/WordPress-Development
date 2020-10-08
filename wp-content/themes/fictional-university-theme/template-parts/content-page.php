@@ -1,4 +1,4 @@
-   <!--
+ <!--
 this template part will be use in getting get_post_type()   
 for the result page    
 -->

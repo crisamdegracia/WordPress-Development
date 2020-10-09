@@ -41,14 +41,14 @@
                 <pre>
                   // to sanitize input fields - a php method
                    sanitize_text_field()
-                   
+
                    the esc_html() will take care the converting the text
                    within the inner parenthesis
-                   
+
                    now instead of as a value
                    dont worry about the escaping on get_search_query(false)
                    becuase daw ung esc_html() ung nag handle non
-                   
+
                    to handle the malicous code
                    esc_html( get_search_query(false) )
                </pre>
@@ -1453,21 +1453,50 @@
 
             <h3>f17v072 Traditional WordPress Searching (Part 2)</h3>
             <div>
-               
-               we created search.php for search results page and page-search.php
-               for search form
-               
-               
-               we can call get_search_query() to display the search query
-               
-               esc_html( get_search_query() )
+
+                we created search.php for search results page and page-search.php
+                for search form
+
+
+                we can call get_search_query() to display the search query
+
+                esc_html( get_search_query() )
             </div>
-            
+
             <h3>f17072 Traditional WordPress Searching (Part 2)</h3>
             <div>
                 <pre>
                     we can create searchform.php then we can call it by get_search_form() -- make sure its a form
                 </pre>
+            </div>
+            <h3>f18v73 - User Roles and Permissions</h3>
+            <div>
+                subscriber - can edit only profiles
+                contributor - can create a rought draft for a page but they can't actually publish
+                author - allowed to sign in and actually create and publish content
+                live up onto the website.
+                - however, author can only edit his own post not otherss
+                editor - can edit, delete their own content and others. 
+                admin - has the full access
+
+
+                members - MemberPress | 
+                - we dont see our post_type (professors,events,campus) on add new role.
+                - is this because, this types are treated like generic blog posts meaning if we clicked on the [posts] (from addnewrole panel) and checked the boxes to grant permission to this new role that would actually frant permission to our custom post_types
+                - because new custom post_types by default inherit the permission and abilities from generic blog posts.
+                - so what we need to do is go and edit the code where we registered the events post-typess
+
+                <pre>
+                             <h5> 
+        now with these two - events has been created in the plugin members
+                             </h5>
+        'capability_type'   => 'event',
+        'map_meta_cap'      => true,
+                       
+                       after doing this - we can then set the user permission on the user that we enroll
+                            - make sure to add the grant role also in ADMIN
+                        </pre>
+
             </div>
         </div>
 

@@ -93,7 +93,7 @@ function universitySearchResults( $data ){
     $mainQuery = new WP_Query(array(
 
         'post_type'     => array('post','page','professor', 'program', 'campus', 'event'),
-        's'             => sanitize_text_field($data['term'])  
+        's'             => sanitize_text_field( $data['term'])  
     ));
     /* --------------------------------------
     1st example - return $professors->posts - binura ;
@@ -149,7 +149,7 @@ we create an arrays, so they can array_push the array
     while($mainQuery->have_posts()){
         $mainQuery->the_post();
 
-        if(get_post_type() == 'post' OR get_post_type() == 'page'){
+        if(get_post_type() == 'posts' OR get_post_type() == 'page'){
 
             array_push($results['generalInfo'], array(
                 'title'     => get_the_title(),
@@ -201,7 +201,7 @@ we will only run this code if $relatedCampus is not empty
                     */
                     array_push($results['campuses'], array(
                         'title' => get_the_title($campus),
-                        'permalink' => get_the_permalink($campus )
+                        'permalink' => get_the_permalink($campus)
                     ) );
 
                 }
@@ -264,7 +264,7 @@ we will only run this code if $relatedCampus is not empty
 
     this solves the problem on 'post_type' => 'professor'
          */
-    if( $results['programs']){
+    if( $results['programs'] ){
         /*
     we are creating a filter just like on the early lectures
 
@@ -284,7 +284,7 @@ we will only run this code if $relatedCampus is not empty
 
 
         /* loop and add other array inside 1st item on programs */
-        foreach($results['programs'] as $item ){
+        foreach( $results['programs'] as $item ){
 
             /*
         1st args the array we want to add into
@@ -298,7 +298,7 @@ we will only run this code if $relatedCampus is not empty
             array_push($programsMetaQuery, array(
                 'key'           => 'related_programs',
                 'compare'       =>  'LIKE',
-                'value'         =>  '"' .$item['id']. '"'
+                'value'         =>  '"'.$item['id'].'"'
 
             ) );
         }
@@ -316,11 +316,13 @@ we will only run this code if $relatedCampus is not empty
 
 
     GO TO if - andun ung answer
-    
+    */
         $programRelationshipQuery = new WP_Query(array(
             'post_type'         => array('professor','event', 'campus'),
             'meta_query'        =>  $programsMetaQuery
+        ));
 
+            /*
      f16v69 - 10:22
       NOT Dynamic - 
         $programRelationshipQuery = new WP_Query(array(
@@ -343,10 +345,9 @@ we will only run this code if $relatedCampus is not empty
             'compare'       =>  'LIKE',
             'value'         =>  '"' .$results['programs'][2]['id']. '"'
 
-        ));
         ))*/
 
-        while($programRelationshipQuery->have_posts() ){
+        while( $programRelationshipQuery->have_posts()  ){
             $programRelationshipQuery->the_post();
 
 
@@ -407,7 +408,7 @@ we will only run this code if $relatedCampus is not empty
         $results['professors'] = array_values(array_unique($results['professors'], SORT_REGULAR));
 
         /*---------- sa Event naman -----------*/
-        $results['event'] = array_values(array_unique($results['events'], SORT_REGULAR));
+        $results['events'] = array_values(array_unique($results['events'], SORT_REGULAR));
 
 
     }

@@ -14,7 +14,7 @@ New REST API URL
 
 function university_post_types(){
 
-    
+
     //Professor post type
     //  'rewrite' => array('slug' => 'professors'), - was removed
     // show_in_rest = true - you can now access the json URL - 
@@ -32,17 +32,27 @@ function university_post_types(){
         ),
         'menu_icon' => 'dashicons-welcome-learn-more'
     )); 
-    
-    
-    
-    
-    
+
+
+
+
+
     //public - this will make visible to editors and viewers of the website
     //labels -> name -> the name on side panel 
     //has_archive -> true - to tell WP to create an archive page for this CPT
     //'rewrite' => array('slug' => 'events') -- will change the URL link from singular to plural - ['slug' => 'events'] we can actually invent the word 'events'  to pizza or anything!
     //supports -  para maging available ung dun sa excerpt and all
+    /*
+     'capability_type'   => 'event',
+        'map_meta_cap'      => true,
+        these 2 - are required to create user roles, 
+
+        now with these two - events has been created in the plugin members
+    */
     register_post_type('event', array(
+        'capability_type'   => 'event',
+        'map_meta_cap'      => true,
+
         'supports' => array('title', 'editor', 'excerpt', 'custom-fields'),
         'rewrite' => array('slug' => 'events'),
         'has_archive' => true,
@@ -75,8 +85,18 @@ function university_post_types(){
     ));
 
 
+    /*
+     'capability_type'   => 'event',
+        'map_meta_cap'      => true,
+        these 2 - are required to create user roles, 
+
+        now with these two - events has been created in the plugin members
+    */
     //Campus Post Type
     register_post_type('campus', array(
+        'capability_type'   => 'campus',
+        'map_meta_cap'      => true,
+
         'supports' => array('title', 'editor', 'excerpt'),
         'rewrite' => array('slug'  => 'campuses'),
         'has_archive' => true,

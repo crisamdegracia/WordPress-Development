@@ -1471,7 +1471,11 @@
             </div>
             <h3>f18v73 - User Roles and Permissions</h3>
             <div>
-                subscriber - can edit only profiles
+                
+
+                <pre>
+                            
+                            subscriber - can edit only profiles
                 contributor - can create a rought draft for a page but they can't actually publish
                 author - allowed to sign in and actually create and publish content
                 live up onto the website.
@@ -1485,8 +1489,7 @@
                 - is this because, this types are treated like generic blog posts meaning if we clicked on the [posts] (from addnewrole panel) and checked the boxes to grant permission to this new role that would actually frant permission to our custom post_types
                 - because new custom post_types by default inherit the permission and abilities from generic blog posts.
                 - so what we need to do is go and edit the code where we registered the events post-typess
-
-                <pre>
+                            
                              <h5> 
         now with these two - events has been created in the plugin members
                              </h5>
@@ -1496,6 +1499,50 @@
                        after doing this - we can then set the user permission on the user that we enroll
                             - make sure to add the grant role also in ADMIN
                         </pre>
+
+            </div>
+            <h3>f18v074 Open Registration</h3>
+            <div>
+                <pre>
+                    Settings> check any one can register
+                    
+                       if( is_user_logged_in() ) { ?
+                               a href=" echo wp_logout_url() ; " class="btn btn--small btn--orange float-left push-right btn--with-photo"
+                                   span>  echo get_avatar();  /span
+                                   span>Logout/span
+                               /a 
+                         } else { 
+                    
+                    
+                    get_avatar() - 1st arg - ID or email
+                                 - size of the image
+                                 - get_current_user_id()
+                                 - 60
+                </pre>
+            </div>
+            
+            <h3>f18v075 - Registration part 2 </h3>
+            <div>
+                   is user_user_logged_in() - checks the user if logged in
+                    get_avatar(get_current_user_id(), 30)  - 1st arg the Id, 2nd size
+                    wp_login_url() - login url
+                    wp_registration() - register
+                    wp_logout_url() - logout
+                    
+                    
+                    change logo link on login
+                    - add_filter('login_headerurl');
+                    
+                    
+
+                /*
+                this script will fire on login to override the css
+                */
+                add_action('login_enqueue_scripts', 'ourLoginCSS');
+
+                function ourLoginCSS(){
+                      wp_enqueue_style('university_main_styles', get_stylesheet_uri(), NULL, microtime() ); 
+                }
 
             </div>
         </div>

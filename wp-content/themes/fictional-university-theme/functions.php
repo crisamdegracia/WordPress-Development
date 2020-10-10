@@ -249,4 +249,117 @@ function UniversityMapKey($api){
 // that we have Google Maps API
 add_filter('acf/fields/google_map/api', 'UniversityMapKey');
 
+
+
+
+
+
+//redirect subscriber to homepage
+
+/*
+1st arg - name of worpress event we want to hook
+2nd arg - name of function
+
+admin_init is triggered before any other hook when a user accesses the admin area.
+*/
+add_action('admin_init', 'redirectSubsToFrontend');
+    
+    function redirectSubsToFrontend(){
+     
+        $currentUser = wp_get_current_user();
+        
+        /*
+        before we create condition we need to create variable
+        so we can look inside it. AHA! so we can look pala ha!
+        
+        if how many users are in the array, if there is 1 user, another check
+        if the user is subscriber
+        then exit
+        
+        exit- so the engine will not do anything after redirects
+        */
+        if(count($currentUser->roles) == 1 AND $currentUser->roles[0] == 'subscriber') {
+            wp_redirect(site_url('/'));
+            
+            exit;
+        }
+        
+    }
+
+
+add_action('wp_loaded', 'noSubAdminBar');
+    
+    function noSubAdminBar(){
+     
+        $currentUser = wp_get_current_user();
+        
+        /*
+        before we create condition we need to create variable
+        so we can look inside it. AHA! so we can look pala ha!
+        
+        if how many users are in the array, if there is 1 user, another check
+        if the user is subscriber
+       
+        
+        
+        */
+        if(count($currentUser->roles) == 1 AND $currentUser->roles[0] == 'subscriber') {
+            
+            /* removes the admin bar */
+           show_admin_bar(false);
+            
+           
+        }
+        
+    }
+/*Logout Redirect*/
+
+add_action('wp_logout','logoutRedirect');
+function logoutRedirect(){
+         wp_redirect( site_url('/') );
+         exit();
+}
+
+
+
+
+/*
+Customize Login Screen
+*/
+
+add_filter('login_headerurl', 'ourHeaderUrl');
+function ourHeaderUrl(){
+    return esc_url(site_url('/'));
+}
+
+
+
+
+/*
+this script will fire on login to override the css
+*/
+add_action('login_enqueue_scripts', 'ourLoginCSS');
+
+function ourLoginCSS(){
+      wp_enqueue_style('university_main_styles', get_stylesheet_uri(), NULL, microtime() ); 
+    
+     wp_enqueue_style('custom-google-font', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i' ); 
+}
+
+/*
+
+iremove ung pag hover mo sa logo ng login na wordpress logo ung title ng wordpress 
+palitan ung Powered by WordPress
+*/
+
+add_filter('login_headertitle', 'ourLoginTitle' );
+
+function ourLoginTitle(){
+    
+    //we can return like anything asdasdsad
+    return get_bloginfo('name');
+    
+}
+
+
 ?>

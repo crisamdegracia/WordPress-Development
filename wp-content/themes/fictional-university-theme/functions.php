@@ -126,9 +126,20 @@ function university_files(){
     // 3rd arg - an array of data that we want to be availabe in Javascript
     wp_localize_script('main-university-js', 'universityData', array(
     
-    'root_url' => get_site_url()
+        /* 
+        nonce - wp_create_nonce - wordPress will not allow us to delete 
+        data in Javascript - 
+                - its a secret data
+        Nonce - stands for number use once or number one.
+        
+        whenever we succesfully logged in, wordpress will gives us NONCE
+        */
+    'root_url'  => get_site_url(),
+    'nonce' =>  wp_create_nonce('wp_rest')   
     
     ) );
+    
+    
 
 }
 

@@ -26,8 +26,8 @@ function university_post_types(){
         'labels'        => array(
             'name'      => 'Professor',
             'add_new_item'  => 'Add New Professor',
-            'edit_item'     => 'Edit Professor',
-            'all_items'     => 'All Professor',
+            'edit_item'     => 'Edit Professors',
+            'all_items'     => 'All Professors',
             'singular_name' => 'Professor'
         ),
         'menu_icon' => 'dashicons-welcome-learn-more'
@@ -78,7 +78,7 @@ function university_post_types(){
             'name' => 'Programs',
             'add_new_item' => 'Add New Program',
             'edit_item' => 'Edit Program',
-            'all_items' => 'All Program',
+            'all_items' => 'All Programs',
             'singular_name' => 'Program'
         ),
         'menu_icon' => 'dashicons-awards'
@@ -110,6 +110,30 @@ function university_post_types(){
         ),
         'menu_icon' => 'dashicons-location-alt'
     ));
+    
+    
+    /*
+    show_in_rest = yes | so we can use it in WP rest
+    public = false | because its a private
+        - false, will also hide it in admin dashboard
+    show_ui - will show now in WP admin dashboard
+    */
+       register_post_type('note', array(
+        'show_in_rest'  => true,
+        'supports'      => array('title', 'editor'),
+        'public'        => false,
+           'show_ui'    => true,
+        'labels'        => array(
+            'name'      => 'Note',
+            'add_new_item'  => 'Add New Note',
+            'edit_item'     => 'Edit Note',
+            'all_items'     => 'All Notes',
+            'singular_name' => 'Note'
+        ),
+        'menu_icon' => 'dashicons-welcome-write-blog'
+    )); 
+
+
 }
 
 // 1st args a hook

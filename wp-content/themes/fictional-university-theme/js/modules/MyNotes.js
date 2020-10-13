@@ -14,11 +14,18 @@ class MyNotes{
 
     }
 
+        
+        /*.bind.this() whithout this daw JS will modify the value of this 
+        and set to equal to whatever element AHA! */
 
     events(){
 
         $('.delete-note').on('click',  this.deleteNote ); 
-        $('.edit-note').on('click',  this.editNote ); 
+        $('.edit-note').on('click', this.editNote.bind(this) ); 
+        
+        
+        $('.update-note').on('click', this.updateNote.bind(this)); 
+        
 
     }
 
@@ -26,62 +33,205 @@ class MyNotes{
 
     //methods
 
-           /*
+    /*
            xhr - so we can send a parameter to modify request jquery to send out
            beforeSend: (xhr) 
-           
+
            all modern browser have a method name setRequestHeader
            setRequestHeader - is how we can pass along a little bit of extra information with your request
             setRequestHeader() - 1st arg, need to be perfect match what wordpress is going to lookout for - X-WP-Nonce
             setRequestHeader() - 2nd arg - is the secrret number
-            
+
             to get the ID from input field from the HTML part (pag-my-note.php)
             we need to give parameter on function deleteNote() - so (e) or event
-            
+
             sabi daw. when we click the delete button, the event(){} will give us information so now we can use the (e) parameter
-            
-            
+
+
            */
-       /*this variable will point list item on HTML that contains the delete button 
+    /*this variable will point list item on HTML that contains the delete button 
         so ang parent is 'li' -- so titingin sya sa mga children sa baba ng 'li'
-        
+
         thisNote.data('id') - now we can access the data-id on HTML
         */
-    
-    
+
+
     deleteNote(e){
-        
-     
+
+
         var thisNote = $(e.target).parents('li');
-        
-       $.ajax({
-           
-           beforeSend: (xhr)=> {
-               xhr.setRequestHeader('X-WP-Nonce', universityData.nonce  )
-           },
-           url: universityData.root_url + '/wp-json/wp/v2/note/' + thisNote.data('id'),
-           type: 'DELETE',
-           success: (response) => {
-               
-               thisNote.slideUp('slow');
-             console.log('Congrats');  
-             console.log(response);  
-           },
-           error: (response) => {
-               console.log('Error meneee');
-             console.log(response);  
-           }
-       });
+
+        $.ajax({
+
+            beforeSend: (xhr)=> {
+                xhr.setRequestHeader('X-WP-Nonce', universityData.nonce  )
+            },
+            url: universityData.root_url + '/wp-json/wp/v2/note/' + thisNote.data('id'),
+            type: 'DELETE',
+            success: (response) => {
+
+                thisNote.slideUp('slow');
+                console.log('Congrats');  
+                console.log(response);  
+            },
+            error: (response) => {
+                console.log('Error meneee');
+                console.log(response);  
+            }
+        });
     }
     
-    /* find the edit button and remove readonly attribute */
-      editNote(e){
-          
-          var editNote = $(e.target).parents('li');
-          
-          editNote.find('.note-title-field, .note-body-field').removeAttr('readonly').addClass('note-active-field');
-          editNote.find('.update-note').addClass('update-note--visible');
-      }
+    /*--- UPDATE ------- CRUD 
+    1st - we just copy the delete method above
+    2nd - we changed 'type' to POST
+        - because we will send a POST request
+    3rd - on success we will 1st call makeNoteReadOnly(); you get that yeah?   
+        - make sure to pass the thisNote variable
+    4th - we create a variable ourUpdatePost{}
+        - the WordPres Rest API is looking for a specific property name
+        -  so if we want to update the title,name 
+        - we need to get the value in the front-end, this is the data that we will send as POST
+    5th - now we can set the data:ourUpdatePost 
+    */
+    
+    
+    updateNote(e){
+
+       var thisNote = $(e.target).parents('li'),
+            ourUpdatePost = {
+                'title':    thisNote.find('.note-title-field').val(),
+                'content':  thisNote.find('.note-body-field').val()
+            };
+        
+        
+        
+        $.ajax({
+
+            beforeSend: (xhr)=> {
+                xhr.setRequestHeader('X-WP-Nonce', universityData.nonce  )
+            },
+            url: universityData.root_url + '/wp-json/wp/v2/note/' + thisNote.data('id'),
+            type: 'POST',
+            data: ourUpdatePost,
+            success: (response) => {
+                this.makeNoteReadOnly(thisNote);
+                console.log('Congrats');  
+                console.log(response);
+                $('#alert').slideDown(500, ()=> {
+                    $('#alert').addClass('alert-visible');
+                    $('#alert').removeClass('alert-hidden');
+                    
+                }).slideToggle(900, () => {
+                    $('#alert').removeClass('alert-visible');
+                    $('#alert').addClass('alert-hidden');
+                })
+            },
+            error: (response) => {
+                console.log('Error meneee');
+                console.log(response);  
+            }
+        });
+        
+        
+    }
+
+    /* 
+    find the edit button and remove readonly attribute. 
+    we copy the html on HTML file of the fontawesome to toggle the edit to cancel.
+
+
+    */
+
+    editNote(e){
+        /* steps
+        1st we declare the button
+        2nd we decalre the Event parameter
+        3rd we create 2 methods makeEditable and makeReadOnly
+        4th we create the logic and conditions
+        */
+        var editNote = $(e.target).parents('li');
+
+        
+        /* [code This.Note]
+        let see if the note has an attribute named state 
+        and if it equals editable 
+        
+        there is no magical about word STATE or EDITABLE
+        I made up both those terms daw. he just declare it earlier, before he explains 
+        why he did it.
+         
+        he is checking for data-atrribute within the parent list item and
+        checking for a specific value. but when we 1st visit the page. there is no value
+        like this. withe attribut data-state=editable
+        thats why when we 1st click the button it will evaluate to false
+        so the else wil run which will able us to edit
+        */
+        if(editNote.data('state') == 'editable'){
+            
+            /*in order daw to reference our methods this.methodName we want to make sure
+            that the keyword 'this' is pointing towards our main class object ( the main class object is MyNotes() the of all! )
+            then we need to look to our events() handler.
+            
+            $('.edit-note').on('click',  this.editNote ).bind(this); 
+            so when edit note gets clicked this is what we're going to call
+            and response we want to be sure. thats why we need to add .bind(this);
+            otherwise the JS will modify the value of this and set it equal to whatever element we clicked on
+            
+            when we 1st create the variable editNote, it will exist inside of this method
+            v80 10:33 mins. this.makeNoteReadOnly(editNote); <-- he explains this but not clear he just add the parameter (editNote)
+            */
+            this.makeNoteReadOnly(editNote);
+        } else {
+            this.makeNoteEditable(editNote);
+        }
+
+
+
+    }  
+
+
+    /*----- Toggle Edit Cancel ----------*/
+    makeNoteEditable(editNote){
+        /* Add Classes*/
+        
+        editNote.find('.edit-note').html('<i class="fa fa-times" aria-hidden="true"></i> Cancel');
+        
+        editNote.find('.note-title-field, .note-body-field').removeAttr('readonly').addClass('note-active-field');
+        
+        editNote.find('.update-note').addClass('update-note--visible');
+        
+        /* 
+        this will be added when we click cancel button. read mo [code This.Note]
+        */
+        editNote.data('state', 'editable');
+        
+    }
+
+
+    makeNoteReadOnly(editNote){
+        /* Remove Classes*/
+        editNote.find('.edit-note').html('<i class="fa fa-pencil" aria-hidden="true"></i> Edit');
+
+        /* attr 2 args - 1st name of attribute. 2nd is the value that we want to assign.   */
+        editNote.find('.note-title-field, .note-body-field').attr('readonly','readonly').removeClass('note-active-field');
+        editNote.find('.update-note').removeClass('update-note--visible');
+        
+        /* we want to update the data-attribute to cancel but the name cancel is not so important, we just need it be be a different attribute name */
+        editNote.data('state', 'cancel')
+    }
+    /*----- Toggle Edit Cancel ----------*/
+    
+    
+
+
+    /* UPDATE Duplicate ata to? */
+//    updateNote(e){
+//     var updateNote = $(e.target).parents('li');
+//
+//        updateNote.find('.note-title-field, .note-body-field').removeAttr('readonly').addClass('note-active-field');
+//        updateNote.find('.update-note').addClass('update-note--visible');
+//    }
+   
 }
 
 

@@ -1,5 +1,8 @@
 <?php 
 get_header();
+
+/* Without the value of [title] [sub-title] e walang value ung sa hero title. */
+
 pageBanner(array(
     'title' => 'Welcome to our blog!',
     'sub-title'  => 'Keep up with our latest news.'

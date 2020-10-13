@@ -91,3 +91,16 @@
     color: #333;
   }
 }
+
+#alert {
+    background: rgba(32, 45, 12, 0.7) ;
+}
+.alert-hidden {
+    display: none;
+}
+
+.alert-visible {
+    display: block;
+   
+    color: #eee;
+}

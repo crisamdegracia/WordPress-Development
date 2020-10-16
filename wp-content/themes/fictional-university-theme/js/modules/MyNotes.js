@@ -18,13 +18,15 @@ class MyNotes{
         /*.bind.this() whithout this daw JS will modify the value of this 
         and set to equal to whatever element AHA! */
 
+/*  $('.delete-note').on('click',  this.deleteNote ); - sa pag load ng document ung current post lang ung nasa DOM, so kapag nag update/create using this class button
+            e hindi pa nailagay  opr naset ni JS sa DOM. to fix this
+            1st is - $('#my-notes').on('click', ".delete-note", this.deleteNote )
+                - so ngayon mag hahanap sya sa child element nalng. */
     events(){
-
-        $('.delete-note').on('click',  this.deleteNote ); 
-        $('.edit-note').on('click', this.editNote.bind(this) ); 
-        
-        
-        $('.update-note').on('click', this.updateNote.bind(this)); 
+        $('#my-notes').on('click', '.delete-note',  this.deleteNote ); 
+        $('#my-notes').on('click', '.edit-note', this.editNote.bind(this) ); 
+        $('#my-notes').on('click', '.update-note', this.updateNote.bind(this)); 
+        $('.submit-note').on('click', this.createNote.bind(this)); 
         
 
     }
@@ -134,6 +136,95 @@ class MyNotes{
         
         
     }
+    
+    /*UPDATE-----------------*/
+    /*
+    To submit our newly created note
+    
+    'status' - default value is 'draft' so we need to set it 'publish'
+    title - get the user input same as on content
+    
+     url: universityData.root_url + '/wp-json/wp/v2/note/',
+        - if we include the ID at the end of URL 
+        - WP will inerpret that we want to work on the current post
+        - if we want to create different post /wp-json/wp/v2/posts or pages/ just change 
+        that
+        
+        
+        
+         $('.new-note-title, .new-note-body').val('');  -- early in the video - he sets the value empty
+         
+         
+         success: (response) => - we can try to console.log that to see the value we can use
+            - ${response.title.raw} - 
+            - ${response.id}
+         
+         
+            $('.delete-note').on('click',  this.deleteNote ); - sa pag load ng document ung current post lang ung nasa DOM, so kapag nag update/create using this class button
+            e hindi pa nailagay  opr naset ni JS sa DOM. to fix this
+            1st is - $('#my-notes').on('click', ".delete-note", this.deleteNote )
+                - so ngayon mag hahanap sya sa child element nalng. 
+            
+         the button for EDIT and DELETE will not work when we submit this note
+                - the script never set up event listers for these buttons. to fix this
+    */
+      createNote(e){
+
+       var  ourNewPost = {
+                'title':    $('.new-note-title').val(),
+                'content':  $('.new-note-body').val(), 
+                'status':   'publish'
+            };
+        
+        
+        
+        $.ajax({
+
+            beforeSend: (xhr)=> {
+                xhr.setRequestHeader('X-WP-Nonce', universityData.nonce  )
+            },
+            url: universityData.root_url + '/wp-json/wp/v2/note/',
+            type: 'POST',
+            data: ourNewPost,
+            success: (response) => {
+                
+                $('.new-note-title, .new-note-body').val('');
+                $(`
+                        <li data-id="${response.id}">
+            <input readonly class="note-title-field" value="${response.title.raw}">
+            <span class="edit-note"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</span>
+            <span class="delete-note"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</span>
+            <textarea readonly class="note-body-field" name="" id="" cols="100" rows="10"> ${response.content.raw} </textarea>
+
+            <span class="update-note btn btn--blue btn--small"><i class="fa fa-arrow-right -o" aria-hidden="true"></i> Save </span>
+        </li>
+
+        
+                `).prependTo('#my-notes').hide().slideDown();
+                console.log('Congrats');  
+                console.log(response);
+                $('#alert').slideDown(500, ()=> {
+                    $('#alert').addClass('alert-visible');
+                    $('#alert').removeClass('alert-hidden');
+                    
+                }).slideToggle(900, () => {
+                    $('#alert').removeClass('alert-visible');
+                    $('#alert').addClass('alert-hidden');
+                })
+            },
+            error: (response) => {
+                console.log('Error meneee');
+                console.log(response);  
+            }
+        });
+        
+        
+    }
+    
+    /*UPDATE-----------------*/
+    
+    
+    
 
     /* 
     find the edit button and remove readonly attribute. 
@@ -223,14 +314,6 @@ class MyNotes{
     
     
 
-
-    /* UPDATE Duplicate ata to? */
-//    updateNote(e){
-//     var updateNote = $(e.target).parents('li');
-//
-//        updateNote.find('.note-title-field, .note-body-field').removeAttr('readonly').addClass('note-active-field');
-//        updateNote.find('.update-note').addClass('update-note--visible');
-//    }
    
 }
 

@@ -117,8 +117,19 @@ function university_post_types(){
     public = false | because its a private
         - false, will also hide it in admin dashboard
     show_ui - will show now in WP admin dashboard
+    'capability_type' => 'note', - note value doesnt need to be the same on postype name
+        - why we set this? because the default permission is set to blog post type
+        - so by saying capability type is equals something new and unique we are setting up a brand new permission 
+    'map_meta_cap'   => true, - will enforce and require the permission at the right time 
+        and at the right place 
+        
+        those 2 will allow us to grant subscriber role to post note - after this we will give all the checks grants for notes
+            -this also needed when we want to display it in side panel on dashboard
+        
     */
        register_post_type('note', array(
+           'capability_type' => 'note',
+           'map_meta_cap'   => true,
         'show_in_rest'  => true,
         'supports'      => array('title', 'editor'),
         'public'        => false,

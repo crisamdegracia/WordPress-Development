@@ -12,35 +12,46 @@ require get_theme_file_path('/inc/search-route.php');
 
 
 function university_custom_rest(){
-    
+
     /*
-    VERY POWERFUL
+    VERY POWERFUL - Teknik to use for WPrestAPI
     3args
     1st arg - the post type we want to customize
     2nd arg - whatever name you want to add.
     3rd arg - an array that describes how we want to manage this field.
-    
+
     We can create as many property as we want.
-    
+
     The added Idea here - we can create a data using PHP and use it to Javascript
     */
     register_rest_field('post', 'authorName', array(
-    /*
+        /*
     our function is going to look for an argument named 
     get_callback and set it equal to function
     whatever the function return, it will be use as a value
     for authorName - that we can call in Javascript
     */
-    'get_callback'      => function(){ return get_the_author(); }
+        'get_callback'      => function(){ return get_the_author(); }
 
-));
+    ));
+    
+    
+    // this is to get a count of post - so we can remove the alert message when deleting notes
+    register_rest_field('note', 'userNoteCount', array(
+        //count_user_post() - 2 args - 1st - user we want to count. 2nd the post type. 
+                    
+        'get_callback'      => function(){ return  count_user_posts(get_current_user_id(), 'note'); }
+    
+    ));
+    
+    
     /*
     Create more!
     register_rest_field();
     register_rest_field();
     register_rest_field();
     */
-    
+
 }
 
 /*
@@ -125,21 +136,21 @@ function university_files(){
     // 2nd arg - gawagawa ng variable  name
     // 3rd arg - an array of data that we want to be availabe in Javascript
     wp_localize_script('main-university-js', 'universityData', array(
-    
+
         /* 
         nonce - wp_create_nonce - wordPress will not allow us to delete 
         data in Javascript - 
                 - its a secret data
         Nonce - stands for number use once or number one.
-        
+
         whenever we succesfully logged in, wordpress will gives us NONCE
         */
-    'root_url'  => get_site_url(),
-    'nonce' =>  wp_create_nonce('wp_rest')   
-    
+        'root_url'  => get_site_url(),
+        'nonce' =>  wp_create_nonce('wp_rest')   
+
     ) );
-    
-    
+
+
 
 }
 
@@ -274,61 +285,61 @@ add_filter('acf/fields/google_map/api', 'UniversityMapKey');
 admin_init is triggered before any other hook when a user accesses the admin area.
 */
 add_action('admin_init', 'redirectSubsToFrontend');
-    
-    function redirectSubsToFrontend(){
-     
-        $currentUser = wp_get_current_user();
-        
-        /*
+
+function redirectSubsToFrontend(){
+
+    $currentUser = wp_get_current_user();
+
+    /*
         before we create condition we need to create variable
         so we can look inside it. AHA! so we can look pala ha!
-        
+
         if how many users are in the array, if there is 1 user, another check
         if the user is subscriber
         then exit
-        
+
         exit- so the engine will not do anything after redirects
         */
-        if(count($currentUser->roles) == 1 AND $currentUser->roles[0] == 'subscriber') {
-            wp_redirect(site_url('/'));
-            
-            exit;
-        }
-        
+    if(count($currentUser->roles) == 1 AND $currentUser->roles[0] == 'subscriber') {
+        wp_redirect(site_url('/'));
+
+        exit;
     }
+
+}
 
 
 add_action('wp_loaded', 'noSubAdminBar');
-    
-    function noSubAdminBar(){
-     
-        $currentUser = wp_get_current_user();
-        
-        /*
+
+function noSubAdminBar(){
+
+    $currentUser = wp_get_current_user();
+
+    /*
         before we create condition we need to create variable
         so we can look inside it. AHA! so we can look pala ha!
-        
+
         if how many users are in the array, if there is 1 user, another check
         if the user is subscriber
-       
-        
-        
+
+
+
         */
-        if(count($currentUser->roles) == 1 AND $currentUser->roles[0] == 'subscriber') {
-            
-            /* removes the admin bar */
-           show_admin_bar(false);
-            
-           
-        }
-        
+    if(count($currentUser->roles) == 1 AND $currentUser->roles[0] == 'subscriber') {
+
+        /* removes the admin bar */
+        show_admin_bar(false);
+
+
     }
+
+}
 /*Logout Redirect*/
 
 add_action('wp_logout','logoutRedirect');
 function logoutRedirect(){
-         wp_redirect( site_url('/') );
-         exit();
+    wp_redirect( site_url('/') );
+    exit();
 }
 
 
@@ -352,9 +363,9 @@ this script will fire on login to override the css
 add_action('login_enqueue_scripts', 'ourLoginCSS');
 
 function ourLoginCSS(){
-      wp_enqueue_style('university_main_styles', get_stylesheet_uri(), NULL, microtime() ); 
-    
-     wp_enqueue_style('custom-google-font', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i' ); 
+    wp_enqueue_style('university_main_styles', get_stylesheet_uri(), NULL, microtime() ); 
+
+    wp_enqueue_style('custom-google-font', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i' ); 
 }
 
 /*
@@ -366,11 +377,64 @@ palitan ung Powered by WordPress
 add_filter('login_headertitle', 'ourLoginTitle' );
 
 function ourLoginTitle(){
-    
+
     //we can return like anything asdasdsad
     return get_bloginfo('name');
-    
+
 }
 
 
+/*
+the 1st parameter that action_filter('wp_insert_post_data') - $data 
+    - do not have the value for current user ID
+    - so the next parameter will do - $postarr
+    - vid 85 
+*/
+function makeNotePrivate($data, $postarr){
+    /* Intercepts any who are posting HTML before we save it to Database    */
+
+    if($data['post_type'] == 'note'){
+        /* condition to limit user post 
+        count_user_posts() - 1st arg - 1st user account we are trying to count the posts of
+            - 2nd - post_type we want to count 
+
+            AND - to know if the user_ID exist so we can diffirentiate if the user wants to 
+            create or just update.
+        */
+        if(count_user_posts(get_current_user_id(), 'note') > 4 AND !$postarr['ID'] ){
+
+            //when die happens - the code below it will not run
+            die('Limit reached.');
+        }
+
+        // Sanitize
+        $data['post_content'] = sanitize_textarea_field($data['post_content']);
+        $data['post_title'] = sanitize_text_field($data['post_title']);
+    }
+
+    // Disables user that is not logged in to see content
+    if($data['post_type'] == 'note' AND $data['post_status'] != 'trash'){
+        $data['post_status'] = "private";
+    }
+    return $data;
+}
+
+
+/* This filter is to allow us to modify user input before we save it in databse 
+
+before the parameter work we need to set the filter this way 
+    - we need to set the order - 10 is the default
+    - last part is important to include another argument and say 2 
+    - 2 represent that we want two parameters
+    - by default its only set to 1
+
+priority 10 explain - if we create
+add_filter('wp_insert_post_data', 'makeNotePrivate', 10, 2 );
+add_filter('wp_insert_post_data', 'function 2', 1, 2 );
+    - multiple filter for wp_insert_post_data - 
+    - the priority 10 will decide what will be executed 1st.
+    - the lower the number the earlier it will run 
+    - the greater the number the later it will run
+*/
+add_filter('wp_insert_post_data', 'makeNotePrivate', 10, 2 );
 ?>

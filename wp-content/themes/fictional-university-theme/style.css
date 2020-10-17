@@ -736,8 +736,8 @@ body.login {
 }
 .alert-visible {
     display: block;
-   
     color: #eee;
+    background-color:rgba(30, 40, 10, 0.8)
 }
 /* My Notes */
 .edit-note,

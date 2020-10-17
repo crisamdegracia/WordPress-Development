@@ -1685,6 +1685,36 @@
             <div>
                 <pre>
                     
+            Tinamad
+                </pre>
+            </div>
+            <h3>f19v84 - Note Permission and Security Part 2</h3>
+            <div>
+               <h5>prevents user to post HMTL before we save it on data bse</h5>
+                <pre>
+                                function makeNotePrivate($data){
+                /* Intercepts any who are posting HTML before we save it to Database    */
+
+                if($data['post_type'] == 'note'){
+
+                    $data['post_content'] = sanitize_textarea_field($data['post_content']);
+                    $data['post_title'] = sanitize_text_field($data['post_title']);
+                }
+
+                // Disables user that is not logged in to see content
+                if($data['post_type'] == 'note' AND $data['post_status'] != 'trash'){
+                    $data['post_status'] = "private";
+                }
+                return $data;
+            }
+            add_filter('wp_insert_post_data', 'makeNotePrivate');
+                </pre>
+            </div>
+            
+            <h3>f19v85 - Per-user Post Limit</h3>
+            <div>
+                <pre>
+                    
                 </pre>
             </div>
         </div>

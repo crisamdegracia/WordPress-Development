@@ -75,12 +75,17 @@ class MyNotes{
                 thisNote.slideUp('slow');
                 console.log('Congrats');  
                 console.log(response);  
+                
+                if(response.userNoteCount < 5 ) {
+                   $('.note-limit-message').removeClass('active') 
+                }
             },
             error: (response) => {
                 console.log('Error meneee');
                 console.log(response);  
             }
         });
+        
     }
     
     /*--- UPDATE ------- CRUD 
@@ -119,14 +124,9 @@ class MyNotes{
                 this.makeNoteReadOnly(thisNote);
                 console.log('Congrats');  
                 console.log(response);
-                $('#alert').slideDown(500, ()=> {
-                    $('#alert').addClass('alert-visible');
-                    $('#alert').removeClass('alert-hidden');
-                    
-                }).slideToggle(900, () => {
-                    $('#alert').removeClass('alert-visible');
-                    $('#alert').addClass('alert-hidden');
-                })
+                
+                thisNote.find('.alert-message').addClass('alert-visible').html('Edit Successful!');
+                
             },
             error: (response) => {
                 console.log('Error meneee');
@@ -213,6 +213,10 @@ class MyNotes{
                 })
             },
             error: (response) => {
+                if( response.responseText ){
+                    /* if response Text has value then do this */
+                   $('.note-limit-message').addClass('active')
+                   }
                 console.log('Error meneee');
                 console.log(response);  
             }

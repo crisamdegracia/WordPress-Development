@@ -110,8 +110,8 @@ function university_post_types(){
         ),
         'menu_icon' => 'dashicons-location-alt'
     ));
-    
-    
+
+
     /*
     show_in_rest = yes | so we can use it in WP rest
     public = false | because its a private
@@ -122,18 +122,18 @@ function university_post_types(){
         - so by saying capability type is equals something new and unique we are setting up a brand new permission 
     'map_meta_cap'   => true, - will enforce and require the permission at the right time 
         and at the right place 
-        
+
         those 2 will allow us to grant subscriber role to post note - after this we will give all the checks grants for notes
             -this also needed when we want to display it in side panel on dashboard
-        
+
     */
-       register_post_type('note', array(
-           'capability_type' => 'note',
-           'map_meta_cap'   => true,
+    register_post_type('note', array(
+        'capability_type' => 'note',
+        'map_meta_cap'   => true,
         'show_in_rest'  => true,
         'supports'      => array('title', 'editor'),
         'public'        => false,
-           'show_ui'    => true,
+        'show_ui'    => true,
         'labels'        => array(
             'name'      => 'Note',
             'add_new_item'  => 'Add New Note',
@@ -143,6 +143,29 @@ function university_post_types(){
         ),
         'menu_icon' => 'dashicons-welcome-write-blog'
     )); 
+
+
+    /*
+    Like Post Type
+    Custom API
+    
+    */
+    register_post_type('like', array(
+        
+        'supports'      => array('title'),
+        'public'        => false,
+        'show_ui'    => true,
+        'labels'        => array(
+            'name'      => 'Like',
+            'add_new_item'  => 'Add New Like',
+            'edit_item'     => 'Edit Like',
+            'all_items'     => 'All Like',
+            'singular_name' => 'Like'
+        ),
+        'menu_icon' => 'dashicons-heart'
+    )); 
+
+
 
 
 }

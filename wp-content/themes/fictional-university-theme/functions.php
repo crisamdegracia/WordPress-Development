@@ -9,6 +9,10 @@ is not required - its just for making things organize
 require get_theme_file_path('/inc/search-route.php');
 /*-------------------------------------------------------*/
 
+require get_theme_file_path('/inc/like-route.php');
+
+
+
 
 
 function university_custom_rest(){
@@ -286,7 +290,7 @@ admin_init is triggered before any other hook when a user accesses the admin are
 */
 add_action('admin_init', 'redirectSubsToFrontend');
 
-function redirectSubsToFrontend(){
+function redirectSubsToFrontend(){ 
 
     $currentUser = wp_get_current_user();
 

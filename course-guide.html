@@ -1651,7 +1651,7 @@
 
 
                 </pre>
-    <h5>EDIT NOTE</h5>
+                <h5>EDIT NOTE</h5>
                 <pre>
 
     /* find the edit button and remove readonly attribute */
@@ -1664,15 +1664,15 @@
       }
                 </pre>
             </div>
-            
-            
+
+
             <h3> f19v80 - Edit And Update Note </h3>
             <div>
                 <pre>
                     just go to the MyNote.js
                 </pre>
             </div>
-            
+
             <h3>f19v81-82</h3>
             <div>
                 <h5>CRUD - go to page-my-notes.php, MyNotes.js</h5>
@@ -1680,17 +1680,17 @@
                     everything is there
                 </pre>
             </div>
-            
+
             <h3>f19v83 - Note Permission and Security Part 1</h3>
             <div>
                 <pre>
-                    
+
             Tinamad
                 </pre>
             </div>
             <h3>f19v84 - Note Permission and Security Part 2</h3>
             <div>
-               <h5>prevents user to post HMTL before we save it on data bse</h5>
+                <h5>prevents user to post HMTL before we save it on data bse</h5>
                 <pre>
                                 function makeNotePrivate($data){
                 /* Intercepts any who are posting HTML before we save it to Database    */
@@ -1710,12 +1710,116 @@
             add_filter('wp_insert_post_data', 'makeNotePrivate');
                 </pre>
             </div>
-            
+
             <h3>f19v85 - Per-user Post Limit</h3>
             <div>
                 <pre>
-                    
+                 we set the global variable on function.php 
+
+
+                // this is to get a count of post - so we can remove the alert message when deleting notes
+                register_rest_field('note', 'userNoteCount', array(
+                    //count_user_post() - 2 args - 1st - user we want to count. 2nd the post type. 
+
+                    'get_callback'      => function(){ return  count_user_posts(get_current_user_id(), 'note'); }
+
+                ));   
                 </pre>
+
+                <pre>
+                    when delete button happens the alert message will remove the class
+
+
+
+                     deleteNote(e){
+
+
+                    var thisNote = $(e.target).parents('li');
+
+                    $.ajax({
+
+                        beforeSend: (xhr)=> {
+                            xhr.setRequestHeader('X-WP-Nonce', universityData.nonce  )
+                        },
+                        url: universityData.root_url + '/wp-json/wp/v2/note/' + thisNote.data('id'),
+                        type: 'DELETE',
+                        success: (response) => {
+
+                            thisNote.slideUp('slow');
+                            console.log('Congrats');  
+                            console.log(response);  
+
+                            if(response.userNoteCount  5 ) 
+                               $('.note-limit-message').removeClass('active') 
+                            }
+                        ,
+
+                        wala ung less than and greater than
+
+                        error: (response) = {
+                            console.log('Error meneee');
+                            console.log(response);  
+                        }
+                    });
+
+                }
+                </pre>
+            </div>
+
+            <h3>f20v86 - Users Like Content part 1</h3>
+            <div>
+                <pre>
+                    Create Custom Post Type 'like'
+                    Create Advanced Custom Field 'Liked Professor ID'
+                        - choose number - for field type
+                            - this will provide extra layer of validation
+
+                </pre>
+
+                <pre>
+                     $likeCount =  new WP_Query(array(
+
+                    'post_type'     => 'like',
+                    'meta_query'    => array(
+                        array(
+                        'key'       => 'liked_professor_id',
+                        'value'     => get_the_ID(),
+                        'compare'   => '='
+                    ))
+                ));
+
+                </pre>
+
+                <pre>
+                   will gives us the total number of posts.
+                    echo $likeCount->found_posts;
+                </pre>
+            </div>
+
+
+            <h3>f20v87 - Part 2 </h3>
+            <div>
+                <pre>
+                    $(e.target).closest('className') - when someone clicks on the like box they 
+                    might not actually click on the overall grey box itself
+                    they might click on the heart icon or the little number
+
+                    - with this whatever element user clicks find the closest ancestor,
+                    meaning parent or grandparent that matches this selector
+
+                    - this line of code will guarantee that this variable will always be pointing towards the relevant like box
+
+                </pre>
+            </div>
+
+            <h3> f20v88 - part 3 </h3>
+            <div>
+            we create on /inc/Like-route.php  rest API
+            then we can then call it now on JS using $.ajax
+            
+            
+            
+            goto like-route.php and like.JS
             </div>
         </div>
 

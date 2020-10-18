@@ -142,7 +142,7 @@ class MyNotes{
     To submit our newly created note
     
     'status' - default value is 'draft' so we need to set it 'publish'
-    title - get the user input same as on content
+    title - get the user input. same as on content
     
      url: universityData.root_url + '/wp-json/wp/v2/note/',
         - if we include the ID at the end of URL 
@@ -161,7 +161,7 @@ class MyNotes{
          
          
             $('.delete-note').on('click',  this.deleteNote ); - sa pag load ng document ung current post lang ung nasa DOM, so kapag nag update/create using this class button
-            e hindi pa nailagay  opr naset ni JS sa DOM. to fix this
+            e hindi pa nailagay  or naset ni JS sa DOM. to fix this
             1st is - $('#my-notes').on('click', ".delete-note", this.deleteNote )
                 - so ngayon mag hahanap sya sa child element nalng. 
             

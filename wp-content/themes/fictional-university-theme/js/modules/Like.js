@@ -33,17 +33,23 @@ class Like {
         var currentLikeBox = $(e.target.closest('.like-box'));
 
         if( currentLikeBox.data('exists') == 'yes'){
-            this.deleteLike();
+            this.deleteLike(currentLikeBox);
         } else {
-            this.createLike()
+
+            /* pass the variable here to the function - so the function can use it*/
+            this.createLike(currentLikeBox)
         }
 
     }
 
+    /*
+        currentLikeBox - is a parameter from ourclickDispatcher
+            - the name can be any
 
-    deleteLike(){
+        */
+    deleteLike(currentLikeBox){
 
-    $.ajax({
+        $.ajax({
             url: universityData.root_url + '/wp-json/university/v1/manageLike',
             type: 'DELETE',
             success: (response)=>{
@@ -55,13 +61,24 @@ class Like {
         })
     }
 
-    /* URL - the one we set in /inc/like.php 
+    /*
+    CREATE NONCE - to validate user if logged to use like function
+    URL - the one we set in /inc/like.php 
        TYPE - type of request
+       we get the ID in front-end on data-professor then use it here on AJAX then we pass it to PHP
+
+       currentLikeBox - is the variable pass a parameter from clickDispatcher() - name can be any
+       so we can use it here below
+       data: {'professorId': currentLikeBox.data('professor')},
     */
-    createLike() {
+    createLike(currentLikeBox) {
         $.ajax({
+            beforeSend: (xhr)=> {
+                xhr.setRequestHeader('X-WP-Nonce', universityData.nonce  )
+            },
             url: universityData.root_url + '/wp-json/university/v1/manageLike',
             type: 'POST',
+            data: {'professorId': currentLikeBox.data('professor')},
             success: (response)=>{
                 console.log(response)
             },

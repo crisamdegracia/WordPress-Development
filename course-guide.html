@@ -1768,6 +1768,21 @@
 
             <h3>f20v86 - Users Like Content part 1</h3>
             <div>
+               
+               <pre>
+                   Steps 
+                   1. we create Custom Post Type - Like 
+                   2. we create the PHP route - see like-route.php
+                   3. we create Advance custom field for the ID of clicker
+                   4. we set event click on JS
+                   5. we get the ID number on frontentd
+                   6. create your NONCE on the condition when liking.
+                       6.a - create it in JS 
+                       6.b - so PHP will trust that we are confirmed user
+                   7. almost forgotten - we set filter in HTML side, meta_query - see single-professor.php
+                   
+               </pre>
+               
                 <pre>
                     Create Custom Post Type 'like'
                     Create Advanced Custom Field 'Liked Professor ID'
@@ -1814,13 +1829,19 @@
 
             <h3> f20v88 - part 3 </h3>
             <div>
-            we create on /inc/Like-route.php  rest API
+           <pre>
+                we create on /inc/Like-route.php  rest API
             then we can then call it now on JS using $.ajax
             
             
             
             goto like-route.php and like.JS
+            
+           </pre>
+            
             </div>
+            
+            
         </div>
 
 

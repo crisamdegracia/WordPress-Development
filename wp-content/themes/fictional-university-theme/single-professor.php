@@ -49,9 +49,13 @@ while (have_posts()){
         ))
     ));
     
+    if(is_user_logged_in()){
+           
     // this will change the value to yes and then will change the heart icon to active
     $existStatus = 'no';
     
+        
+        
     /*
     this query will contain results if the current user has already liked the current
     professor
@@ -68,8 +72,11 @@ while (have_posts()){
     ));
     
     if( $existQuery->found_posts) { $existStatus = 'yes'; }
-                    ?>
- <span class="like-box" data-exists="<?php echo $existStatus; ?>">
+      
+    }
+    
+               ?>
+ <span class="like-box" data-professor="<?php the_ID(); ?>" data-exists="<?php echo $existStatus; ?>">
                     <i class="fa fa-heart-o" aria-hidden="true"></i>
                     <i class="fa fa-heart" aria-hidden="true"></i>
                     <span class="like-count"><?php echo $likeCount->found_posts;?></span>

@@ -119,9 +119,39 @@ function createLike($data){
 }
 
 
-function deleteLike(){
-
-    return 'Delete PHP';
+function deleteLike($data){
+/* this ID contain whatever the JS will send us here on PHP
+$data['like'] - must match the property that ajax.data will send us.
+*/
+    
+  $likeID  = sanitize_text_field($data['like']);
+      
+      /* 1st args is the id that post we want to delete 
+        2nd - if we want to trash itt or completely delete it 
+            - true - will skip the trash and totally delete it
+      wp_delete_post($likeID, true ) - very unsecure! 
+      
+      
+      if get_current_user_id - so malicious user cannot just delete 
+        - and it must be their post to delete - ung gawa nila.
+      
+      get_post_field() - 2 args - 2nd - is the ID of the post we want info about 
+        - 1st args - is what information we want from that post
+      
+      2nd condition - get_post_type() - whatever post type we want to delete
+        - to make sure that is equals to 'like' post_type
+      
+      */
+      
+      
+      if(get_current_user_id() == get_post_field('post_author', $likeID ) AND  get_post_type( $likeID ) == 'like') {
+          
+      wp_delete_post($likeID, true );
+          return 'Congrats! like deleted.';
+      
+      } else {
+          die('You do not have permission to delete that.');
+      }
 
 }
 

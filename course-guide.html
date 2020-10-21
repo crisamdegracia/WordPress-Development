@@ -1768,8 +1768,8 @@
 
             <h3>f20v86 - Users Like Content part 1</h3>
             <div>
-               
-               <pre>
+
+                <pre>
                    Steps 
                    1. we create Custom Post Type - Like 
                    2. we create the PHP route - see like-route.php
@@ -1780,9 +1780,9 @@
                        6.a - create it in JS 
                        6.b - so PHP will trust that we are confirmed user
                    7. almost forgotten - we set filter in HTML side, meta_query - see single-professor.php
-                   
+
                </pre>
-               
+
                 <pre>
                     Create Custom Post Type 'like'
                     Create Advanced Custom Field 'Liked Professor ID'
@@ -1829,26 +1829,193 @@
 
             <h3> f20v88 - part 3 </h3>
             <div>
-           <pre>
+                <pre>
                 we create on /inc/Like-route.php  rest API
             then we can then call it now on JS using $.ajax
-            
-            
-            
+
+
+
             goto like-route.php and like.JS
-            
+
            </pre>
-            
+
             </div>
-            
-            <h3>f20v92 - Complete the Like box</h3>
+
+            <h3>f20v91 - Complete the Like box</h3>
             <div>
                 <pre>
-                    
+                    go to like.js and like-route.php and single-professor.php
                 </pre>
             </div>
+
+            <h3>f2192 - Going Live! </h3>
+            <div>
+                <pre>
+
+                </pre>
+            </div>
+
+            <h3>f2194 - WP migrate Database </h3>
+            <div>
+                <pre>
+                    WP Migrate Database: by Delicious Brains
+
+                    - so we can import our DB
+                    - 1st Select Export File
+                        - Find and replace
+                        - your local URL and Live URL
+                    - //yourLocal.URL  ->  //yourLive.URL
+                    - perform 1 row only
+                     READY to EXPORT!
+                </pre>
+            </div>
+
+
+            <h3> f21v95 - Databse Config for 2 site environment </h3>
+
+            <div>
+                <pre>
+                    within the folder on wp-config.php - create local.php.
+                    then on wp-config.php - create if statement
+                        - if the local.php exists
+                        - this if condition will properly connect to our local DB and Live DB
+
+
+                    if(file_exists(dirname__file__) . '/local.php'){
+
+                    // Local Database Setting
+
+                    define( 'DB_NAME', 'local' );
+                    define( 'DB_USER', 'root' );
+                    define( 'DB_PASSWORD', 'root' );
+                    define( 'DB_HOST', 'localhost' );
+
+                    } else {
+
+                    // Live DB Setting
+                        define( 'DB_NAME', 'Live DB name' );
+                        define( 'DB_USER', 'Live Username' );
+                        define( 'DB_PASSWORD', 'Live PW' );
+                        define( 'DB_HOST', 'localhost' );
+                    }
+
+                    DONT Forget SALT!
+
+                </pre>
+            </div>
+
+
+            <h3>f21v96 - Ignoring certain files with GIT </h3>
+            <div>
+                <pre>
+                    Create git Repo - we have one!
+                    bitbucket - offers Private git repo
+                    Github also does !
+                </pre>
+
+                <pre>
+                  - we  do this becoz - at some point we dont need the local.php file so better not to upload 
+                  that on live server
+                   - if we want to ignore certain file to push on live server do this
+
+                    on local files, the root of folder. create .gitignore 
+                    - then app/local.php
+                </pre>
+
+                <pre>
+                    deployhq - 1 project free - 10 deployments per day
+                    deployBot - not free
+                    FTPLOY - 1 free account unlimited deploy per day
+                </pre>
+            </div>
+
+            <h3>f21v97 - Automatic Git Deployments to Webhost</h3>
+            <div>
+                <pre>
+                    We create profile in DeployHQ - 
+                        - choose which service - Github, Bitbucket, Codebase, GitLab
+                        - grant access menu
+                        - make sure we are login to git, Github or whatever
+                        - after granting access, we are now connected to git repo
+                        - click the name of the website we integrate
+
+                        - this time, we will connect the webhost to connect to DeployHQ
+                        - never use FTP - never ever daw!
+                        - FTP - sends your username and password unencrypted
+                        - instead we use SFTP  - SSH/SFTP
+                        - now, we fill the details, just like in FTP zilla
+                        - hostname ftp.yourWebsite.URL / ftp.brads.sgedu.site
+                        - port: dont use the default daw - he uses 16765 - i dont know where did he get that
+                        - get the username in FTP accounts
+                        - check the - Use SSH key rather than password for authentication
+                        - then DeployDQ will give us the SSH key 
+                        - go to cpanel - SSH - and paste the code - just paste the code the upload.
+                            no need to create password or account - that according to the video.
+                        - Deployment Path - public_html/  05:34
+                        - [Deployment Option] Branch to Deploy from - MASTER
+                        - Subdirectory to deploy from -  app/
+                            - point it towards the folder that contains all of the main WP files
+                        - then CREATE SERVER - all the unfilled field - just ignore
+                </pre>
+                <pre>
+                        Create our 1st deployment
+                            - click > deployment > new deployment
+                                -  to send files to our webhost
+                            - start manually - click button > deploy
+                            - transfer succesfull on the video
+                                - but the website is error stablishing databse
+                                - this is SiteGround
+                            - if this happens - go to cPanel, mySql Database
+                            - Add user to a Database - then Grant all privileges to this user
+                                - now our website is connected. 
+                       </pre>
+
+                <pre>
+                    Now to enable the publishing on commandline from local file to server
+                      - in DeployHQ > server & groups > Click the SSH [the red button with pencil] click edit
+                      -  then scroll to the buttom, Enable auto Deployment
+                          - it auto enabled - just take/copy the URL 
+                              - its a webhook, to include within our Github or Bitbucket setting screen
+                              
+                     - Now, go to main file source of the code Bitbucket/Github  > go to settings >
+                         - look for Webhooks > add webhook > title doesnt matter, then paste the URL, then he just hit save
+                     - now when we git pushlish origin master, the website will also change on live server
+                      
+                       </pre>
+
+            </div>
             
-            
+            <h3> f22v98 - Setting Up New Projects in VAGRANT </h3>
+            <div>
+                <pre>
+                    create main folder - pets>app
+                    open to editor config.yaml
+                        - look for apache
+                        - copy and past below vHost
+                        - change the name av_eh5v66prqxfo: to anything
+                        - change server name to pets.dev
+                        - change serveraliases: - www.pets.dev
+                        - docroot - /var/www/pets/app
+                        - below the directories 
+                            - avd_r8x39n4643db - change to new string - avd_r8x123
+                        - path : /var/www/pets/app
+                        - below files_match: avfm_d8nrm806y8lz - change to any
+                        - below provider - avfm_ggoe69leirs7 - change to new string
+                        - below provider again - avfm_pj8nghmcw7ee: - change to any
+                        - 
+                        
+                        open commandline
+                        - vagrant up - to start the local server
+                        - vagrant halt to stop
+                        now go to commandline to rebuild 
+                        - type vagrant provision  
+                        
+                        I CANNOT MAKE IT WORK!
+                </pre>
+            </div>
+
+
+
         </div>
 
 
